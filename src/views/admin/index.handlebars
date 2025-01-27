@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="/css/admin/index.css">
+
+<main>
+    {{>_message}}
+    <section>
+        <div class="musicas-titulo">
+            <h2>Total Músicas</h2>
+            <h2>Total Partituras</h2>
+        </div>
+    
+        <form action="#" method="post">
+            <input type="search" name="psq" placeholder="Pesquise uma Música">
+            <button type="submit"></button>
+        </form>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Instrumento</th>
+                    <th colspan="2">Função</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Se Essa Rua Fosse Minha</td>
+                    <td>Sax Tenor</td>
+                    <td class='btn-func' onclick="location.href ='/admin/musica/edit/{{id}}'">Edit</td>
+                </tr>
+    
+            </tbody>
+        </table>
+    </section>
+    
+    <section>
+        <h2>Autores</h2>
+    
+        <form action="#" method="post">
+            <input type="search" name="psq1" placeholder="Pesquise um Autor">
+            <button type="submit"></button>
+        </form>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th colspan="2">Função</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Chico Buarque</td>
+                    <td class='btn-func' onclick="location.href ='/admin/autor/edit/'">Edit</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section>
+        <h2>Generos</h2>
+    
+        <form action="#" method="post">
+            <input type="search" name="psq2" placeholder="Pesquise um Genero">
+            <button type="submit"></button>
+        </form>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th colspan="2">Função</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+                {{#each generos}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{nome}}</td>
+                    <td class='btn-func' onclick="location.href='/admin/genero/{{id}}'">Edit</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+    
+    <section>
+        <h2>Instrumentos</h2>
+    
+        <form action="#" method="post">
+            <input type="search" name="psq2" placeholder="Pesquise um Instrumento">
+            <button type="submit"></button>
+        </form>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Nome de Exibição</th>
+                    <th colspan="2">Função</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+                {{#each instrumentos}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{nome}}</td>
+                    <td>{{nomeExibicao}}</td>
+                    <td class='btn-func' onclick="location.href='/admin/instrumento/{{id}}'">Edit</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+</main>

@@ -1,0 +1,71 @@
+/* Botões de rolagem lateral */
+.autor-botoes {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px -20px;
+    height: 160px;
+    width: 100vw;
+}
+
+/* Sessão dos Autores */
+h2 {
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+.autores {
+    display: flex;
+    overflow: auto;
+    gap: 8px;
+    z-index: -1;
+    padding: 10px 0px;
+    margin: 0px 20px;
+}
+
+.autores img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.autor-card {
+    text-align: center;
+    color: white;
+    transition: transform 1s;
+    width: max-content;
+    background-color: transparent;
+}
+
+.autor-card:hover {
+    transform: translateY(-10px);
+    text-decoration: underline;
+    text-decoration-color: #1183d6;
+}
+
+/* Animações */
+.carroselLeft {
+    animation: carroselLeft 2s ease-in-out forwards;
+}
+
+/* Versão mobile */
+@media screen and ( max-width:600px ) {
+    .autor-botoes {
+        display: none;
+    }
+    .autores {
+        margin: 0px;
+    }
+}
+
+/* Animações */
+@keyframes carroselLeft {
+    from {
+        transform: translateX(-100vw);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}

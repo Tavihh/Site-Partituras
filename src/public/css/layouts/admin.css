@@ -1,0 +1,168 @@
+@charset "UTF-8";
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    border: 0px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-decoration: none;
+    outline: none;
+}
+
+::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+    text-decoration: dotted;
+}
+
+html, body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo do cabeçalho */
+header {
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    justify-content: space-between;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    z-index: 1;
+}
+
+
+header h1 {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+/* Botões de controle */
+header .button-menu { 
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+}
+
+header .button-menu img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Barra de navegação lateral*/
+#nav-side {
+    position: fixed;
+    top: 0px;
+    z-index: 2;
+
+    color: white;
+    background-color: #11111d;
+    
+    /* width: 170px; */
+    height: 100vh;
+    padding: 20px 10px;
+
+    font-size: 1.2em;
+    border-right: 1px solid black;
+
+    /* Esconde a barra de navegação */
+    transform: translateX(-100%);
+    transition: 1s;
+}
+/* Mostra a barra de navegação */
+#nav-side.activate {
+    transform: translateX(0px);
+}
+
+#nav-side .button-menu {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+}
+
+#nav-side h1 {
+    font-size: 1.5em;
+    text-align: center;
+    padding: 0px 20px;
+}
+
+#nav-side .card-perfil {
+    text-align: center;
+    font-size: 0.7em;
+    margin-bottom: 5px;
+}
+
+#nav-side .card-perfil img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: gray;
+}
+
+#nav-side hr {
+    height: 1px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+#nav-side ul {
+    list-style-type: none;
+}
+
+#nav-side ul li a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 5px;
+    text-align: center;
+    border-radius: 5px;
+    list-style-type: none;
+    font-size: 0.8em;
+    color: white;
+}
+
+#nav-side ul li a:hover {
+    background-color: white;
+    color: black;
+}
+
+#nav-side ul li img {
+    height: 20px;
+}
+
+/* Versão mobile */
+@media screen and ( max-width:800px ) {
+    header {
+        flex-wrap: wrap;
+    }
+
+    header .box {
+        width: 100%;
+        text-align:start;
+    }
+    
+    header h1 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    header button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+
+    header form {
+        margin: auto;
+        max-width: 500px;
+        width: 100%;
+    }
+}

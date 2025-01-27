@@ -1,0 +1,19 @@
+.alert {
+    background-color: inherit;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    font-weight: 300;
+    padding: 3px;
+    color: white;
+    text-align: center;
+}
+
+.alert-danger{
+    background-color: rgba(244, 15, 15, 0.349);
+}
+.alert-success{
+    background-color: rgba(0, 128, 0, 0.511);
+}

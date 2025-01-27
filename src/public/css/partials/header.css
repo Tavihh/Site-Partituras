@@ -1,0 +1,99 @@
+/* Estilo do cabeçalho */
+header {
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    justify-content: space-between;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    z-index: 1;
+}
+
+header .box {
+    margin: 0px 30px;
+    width: 100px;
+    text-align: center;
+}
+
+
+header h1 {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+/* Estilo da barra de pesquisa */
+header form {
+    max-width: 500px;
+    min-width: 300px;
+    width: 100%;
+
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 3px;
+    background-color: white;
+}
+
+header form input[type='search'] {
+    flex: auto;
+    padding: 5px;
+}
+
+header form input[type='submit'] {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background: #333 url('../../imagens/search.png') no-repeat center center;
+    background-size: 23px;
+    border-radius: inherit;
+    opacity: 0.7;
+}
+
+header form input[type='submit']:hover {
+    opacity: 1;
+}
+
+/* Botões de controle */
+header .button-menu { 
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+}
+
+header .button-menu img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Versão mobile */
+@media screen and ( max-width:800px ) {
+    header {
+        flex-wrap: wrap;
+    }
+
+    header .box {
+        width: 100%;
+        text-align:start;
+    }
+    
+    header h1 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    header button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+
+    header form {
+        margin: auto;
+        max-width: 500px;
+        width: 100%;
+    }
+}

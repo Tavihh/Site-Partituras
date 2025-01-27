@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/partials/navside.css">
+
+<nav id="nav-side">  
+    <div class="card-perfil">
+        <img src="/imagens/account.png" alt="img">
+        <p>{{user.nome}} {{user.sobrenome}}</p>
+    </div>
+    <hr>
+    <ul>
+        <li><a href="/"><img src="/imagens/home.png" alt="img">Home</a></li>
+        {{#if user}}
+        <li><a href="/usuario/conta"><img src="/imagens/account.png" alt="img">Conta</a></li>
+        {{else}}
+        <li><a href="/usuario/login"><img src="/imagens/login.png" alt="img">Login</a></li>
+        <li><a href="/usuario/registrar"><img src="/imagens/login.png" alt="img">Registrar</a></li>
+        {{/if}}
+        {{#if user.eAdmin}}
+        <li><a href="/admin/"><img src="/imagens/shield-person.png" alt="img"> Admin</a></li>
+        {{/if}}
+        {{#if user}}
+        <li><a href="/usuario/logout"><img src="/imagens/logout.png" alt="img">Logout</a></li>
+        {{/if}}
+    </ul>
+</nav>

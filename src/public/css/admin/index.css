@@ -1,0 +1,74 @@
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: black;
+    padding: 10px;
+}
+/* Estilo das sections de cada tabela */
+.musicas-titulo {
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between;
+}
+
+section {
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+}
+
+section form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px 5px 0px 0px;
+}
+
+section form input {
+    padding: 5px;
+    border-radius: 5px;
+    flex: 1;
+}
+
+section button {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    background: #333 url('/imagens/search.png') no-repeat center center;
+    background-size: 15px;
+    opacity: 0.7;
+    border-radius: 5px;
+}
+
+section button:hover {
+    opacity: 1;
+}
+
+section table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+section table thead {
+    width: max-content;
+}
+
+section table td, main table th {
+    text-align: center;
+    padding: 5px 0px;
+    border: 1px solid black;
+}
+
+.btn-func:hover {
+    cursor: pointer;
+    opacity: 0.7;
+    background-color: #444;
+}

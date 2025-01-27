@@ -1,0 +1,103 @@
+/* Estilo do main */
+main {
+    flex: auto;
+    padding: 30px 10px;
+    background-color: antiquewhite;
+}
+/* Formulario */
+.form-body {
+    max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+    margin:auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #333;
+    color: white;
+    height: max-content;
+    padding: 10px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.319);
+}
+.form-body p {
+    padding: 5px 0px 0px;
+}
+
+.form-body p a{
+    color: white;
+    font-weight: 800;
+
+}
+.form-body p a:hover {
+    text-decoration: underline;
+    text-decoration-color: #1183d6;
+}
+
+main form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+    height: max-content;
+    padding: 10px;
+    border-radius: inherit;
+    background-color: white;
+}
+
+.form-body h2 {
+    color:white;
+    text-align:center;
+    margin-bottom: 10px;
+}
+
+/* Estilo dos campos de texto */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    outline: 0px;
+    border-radius: inherit;
+}
+
+/* Estilo do botão de arquivo */
+.form-file-hidden {
+    display: none;
+}
+
+.form-file {
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background-color: #999;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    opacity: 0.7;
+}
+.active {
+    background-color: #90ca90; /* Cor ao selecionar um arquivo */
+}
+
+/* Estilo dos botões */
+.form-submit {
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+.form-input:defined {
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom: 1px solid black;
+}
+
+.form-submit:hover, .form-file:hover {
+    opacity: 1;
+}
+
+.danger {
+    background-color: rgba(255, 0, 0, 0.789);
+}

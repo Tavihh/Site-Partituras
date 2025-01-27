@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Gênero</h2>
+        <form action="/admin/addGenero" method="post">
+            <input type="text" name="genero" id="genero" class="form-input" placeholder="Gênero">
+            <input type="submit" value="Cadastrar" class="form-submit">
+        </form>
+    </div>
+</main>

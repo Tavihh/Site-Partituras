@@ -1,0 +1,25 @@
+{{!-- <link rel="stylesheet" href="/css/usuario/conta.css"> --}}
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Detalhes da Conta</h2>
+        <form action="/usuario/atualizarDados" method="post" class="form">
+            <input type="text" name="nome" id="nome" class="form-input" placeholder="Nome" value="{{user.nome}}">
+            <input type="text" name="sobrenome" id="sobrenome" class="form-input" placeholder="Sobrenome" value="{{user.sobrenome}}">
+            <input type="text" name="email" id="email" class="form-input" placeholder="E-mail" value="{{user.email}}">
+            <input type="submit" value="Atualizar" class="form-submit">
+        </form>
+    </div>
+
+    <div class="form-body">
+        <h2>Trocar Senha</h2>
+        <form action="/usuario/atualizarSenha" method="post" class="form">
+            <input type="password" name="senha" id="senha" class="form-input" placeholder="Digite sua senha atual">
+            <input type="password" name="newsenha" id="newsenha" class="form-input" placeholder="Digite sua nova senha">
+            <input type="password" name="newsenha2" id="newsenha2" class="form-input" placeholder="Confirme sua nova senha">
+            <input type="submit" value="Atualizar" class="form-submit">
+        </form>
+    </div>
+</main>

@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/css/partials/message.css">
+
+{{#each error_msg}}
+<div class="alert alert-danger error_message">{{this}}</div>
+{{/each}}
+
+{{#each success_msg}}
+<div class="alert alert-success success_message">{{this}}</div>
+{{/each}}
+
+{{#each erros}}
+<div class="alert alert-danger erros">{{texto}}</div>
+{{/each}}
+
+{{#each error}}
+<div class="alert alert-danger error">{{this}}</div>
+{{/each}}

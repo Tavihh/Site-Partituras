@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    <div class="form-body">
+        <h2>Música</h2>
+        <form action="#">
+            <input type="text" name="nome" id="nome" class="form-input" placeholder="Nome da Música">
+            <input type="text" name="iframe" id="iframe" class="form-input" placeholder="Iframe">
+
+            <select name="autor" id="autor" class="form-input">
+                <option value="1">Chico Buarque</option>
+            </select>
+            
+            <select name="genero" id="genero" class="form-input">
+                <option value="MPB">MPB</option>
+            </select>
+            
+            <select name="instrumento" id="instrumento" class="form-input">
+                <option value="1">Sax Tenor</option>
+            </select>
+
+            {{!-- Arquivos --}}
+            <label for="file-PNG" class="form-file" id="form-PNG">PNG</label>
+            <label for="file-PDF" class="form-file" id="form-PDF">PDF</label>
+            <label for="file-MXL" class="form-file" id="form-MXL">MXL</label>
+            <label for="file-MP3" class="form-file" id="form-MP3">MP3</label>
+
+            <input type="file" name="file-PNG" id="file-PNG" class="form-file-hidden">
+            <input type="file" name="file-PDF" id="file-PDF" class="form-file-hidden">
+            <input type="file" name="file-MXL" id="file-MXL" class="form-file-hidden">
+            <input type="file" name="file-MP3" id="file-MP3" class="form-file-hidden">
+
+            <input type="submit" value="Cadastrar" class="form-submit">
+        </form>
+    </div>
+</main>
