@@ -12,7 +12,7 @@ app.use('/usuario', usuario)
 app.use('/admin', admin)
 
 // Outros
-const PORTA = 9090
+const PORTA = 1010
 app.listen(PORTA, () => {
     console.log(`Servidor rodando em: http://localhost:${PORTA}`)
 })
