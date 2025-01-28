@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Instrumento</h2>
+        <form action="/admin/editInstrumento" method="post">
+            <input type="hidden" name="id" value="{{instrumento.id}}">
+            <input type="text" name="instrumento" id="instrumento" class="form-input" placeholder="Instrumento" value="{{instrumento.nome}}">
+            <input type="text" name="nomeExibicao" id="nomeExibicao" class="form-input" placeholder="Nome de Exibição" value="{{instrumento.nomeExibicao}}">
+            <input type="submit" value="Atualizar" class="form-submit">
+            <input type="button" value="Deletar" class="form-submit danger">
+            <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
+        </form>
+    </div>
+</main>

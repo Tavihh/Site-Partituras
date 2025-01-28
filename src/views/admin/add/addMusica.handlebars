@@ -1,22 +1,29 @@
 <link rel="stylesheet" href="/css/usuario/form.css">
 
 <main>
+    {{>_message}}
     <div class="form-body">
         <h2>Música</h2>
-        <form action="#">
+        <form action="/admin/addMusica" method="post" enctype="multipart/form-data">
             <input type="text" name="nome" id="nome" class="form-input" placeholder="Nome da Música">
             <input type="text" name="iframe" id="iframe" class="form-input" placeholder="Iframe">
 
             <select name="autor" id="autor" class="form-input">
-                <option value="1">Chico Buarque</option>
+                {{#each autor}}
+                <option value="{{id}}">{{nome}}</option>
+                {{/each}}
             </select>
             
             <select name="genero" id="genero" class="form-input">
-                <option value="MPB">MPB</option>
+                {{#each genero}}
+                <option value="{{id}}">{{nome}}</option>
+                {{/each}}
             </select>
             
             <select name="instrumento" id="instrumento" class="form-input">
-                <option value="1">Sax Tenor</option>
+                {{#each instrumento}}
+                <option value="{{id}}">{{nome}}</option>
+                {{/each}}
             </select>
 
             {{!-- Arquivos --}}

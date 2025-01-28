@@ -59,6 +59,7 @@ section table {
 
 section table thead {
     width: max-content;
+    background-color: #222;
 }
 
 section table td, main table th {
@@ -67,7 +68,7 @@ section table td, main table th {
     border: 1px solid black;
 }
 
-.btn-func:hover {
+tbody tr:hover {
     cursor: pointer;
     opacity: 0.7;
     background-color: #444;

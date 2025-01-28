@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Autor</h2>
+        <form action="/admin/editAutor" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{autor.id}}">
+            <input type="hidden" name="pathFoto" value="{{autor.pathFoto}}">
+            <label for="file-JPG" id="form-JPG" class="form-file">JPG</label>
+            <input type="file" name="file" id="file-JPG" class="form-file-hidden">
+            <input type="text" name="nome" id="nome" class="form-input" placeholder="Autor" value="{{autor.nome}}">
+            <input type="submit" value="Atualizar" class="form-submit">
+            <input type="button" value="Deletar" class="form-submit danger">
+            <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
+        </form>
+    </div>
+</main>

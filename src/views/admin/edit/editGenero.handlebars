@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Gênero</h2>
+        <form action="/admin/editGenero" method="post">
+            <input type="hidden" name="id" value="{{genero.id}}">
+            <input type="text" name="genero" id="genero" class="form-input" placeholder="Gênero" value="{{genero.nome}}">
+            <input type="submit" value="Atualizar" class="form-submit">
+            <input type="button" value="Deletar" class="form-submit danger">
+            <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
+        </form>
+    </div>
+</main>

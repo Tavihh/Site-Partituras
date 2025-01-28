@@ -22,6 +22,7 @@ const path = require('path')
         res.locals.error_msg = req.flash('error_msg')
         res.locals.success_msg = req.flash('success_msg')
         res.locals.error = req.flash('error')
+        res.locals.erros_form = req.flash('erros')
         res.locals.user = req.user || null
         next()
     })

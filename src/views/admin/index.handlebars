@@ -16,21 +16,18 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nome</th>
                     <th>Instrumento</th>
-                    <th colspan="2">Função</th>
                 </tr>
             </thead>
     
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Se Essa Rua Fosse Minha</td>
-                    <td>Sax Tenor</td>
-                    <td class='btn-func' onclick="location.href ='/admin/musica/edit/{{id}}'">Edit</td>
+                {{#each musicas}}
+                <tr onclick="location.href='/admin/musica/{{id}}'">
+                    <td>{{nome}}</td>
+                    <td>{{instrumento.nome}}</td>
                 </tr>
-    
+                {{/each}}
             </tbody>
         </table>
     </section>
@@ -48,16 +45,16 @@
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th colspan="2">Função</th>
                 </tr>
             </thead>
     
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Chico Buarque</td>
-                    <td class='btn-func' onclick="location.href ='/admin/autor/edit/'">Edit</td>
+                {{#each autores}}
+                <tr onclick="location.href='/admin/autor/{{id}}'">
+                    <td>{{id}}</td>
+                    <td>{{nome}}</td>
                 </tr>
+                {{/each}}
             </tbody>
         </table>
     </section>
@@ -75,16 +72,14 @@
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th colspan="2">Função</th>
                 </tr>
             </thead>
     
             <tbody>
                 {{#each generos}}
-                <tr>
+                <tr onclick="location.href='/admin/genero/{{id}}'">
                     <td>{{id}}</td>
                     <td>{{nome}}</td>
-                    <td class='btn-func' onclick="location.href='/admin/genero/{{id}}'">Edit</td>
                 </tr>
                 {{/each}}
             </tbody>
@@ -102,20 +97,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nome</th>
                     <th>Nome de Exibição</th>
-                    <th colspan="2">Função</th>
                 </tr>
             </thead>
     
             <tbody>
                 {{#each instrumentos}}
-                <tr>
-                    <td>{{id}}</td>
+                <tr onclick="location.href='/admin/instrumento/{{id}}'">
                     <td>{{nome}}</td>
                     <td>{{nomeExibicao}}</td>
-                    <td class='btn-func' onclick="location.href='/admin/instrumento/{{id}}'">Edit</td>
                 </tr>
                 {{/each}}
             </tbody>
