@@ -79,6 +79,7 @@ router.get('/musica/:id', (req,res) => {
 
     // tratando erros
     }).catch((err) => {
+        console.log(err)
         req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
         res.redirect('/admin')
     })
@@ -159,7 +160,6 @@ router.post('/addMusica', (req,res) => {
 
             // validações
             const nome = req.body.nome.trim()
-            const iframe = req.body.iframe.trim() || null
             const instrumento = req.body.instrumento.trim()
             const genero = req.body.genero.trim()
             const autor = req.body.autor.trim()
@@ -188,7 +188,7 @@ router.post('/addMusica', (req,res) => {
                     for (let key in item) {
                         fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
                             if (err) {
-                                console.log('ERRO:', err)
+                                // console.log(err)
                             }
                         })
                     }
@@ -200,7 +200,6 @@ router.post('/addMusica', (req,res) => {
                 // salvando no banco de dados
                 Musica.create({
                     nome:nome,
-                    iframe:iframe,
                     pathPNG: files.find(file => file.pathPNG) ?.pathPNG || null,
                     pathPDF: files.find(file => file.pathPDF) ?.pathPDF || null,
                     pathMXL: files.find(file => file.pathMXL) ?.pathMXL || null,
@@ -356,32 +355,41 @@ router.post('/editMusica', (req,res) => {
         if(err) {
             console.log(err)
             req.flash('error_msg', 'Erro interno do multer')
-            res.redirect('/admin/musica')
+            res.redirect(`/admin/musica/${id}`)
         } else {
 
             // verifica quais arquivos foram enviados
             let files = []
+            let oldFiles = []
             if(req.files['file-PNG']) {
                 files.push({pathPNG:req.files['file-PNG'][0].filename})
+                oldFiles.push({OldPNG:req.body.pathPNG})
             }
             if(req.files['file-PDF']) {
                 files.push({pathPDF:req.files['file-PDF'][0].filename})
+                oldFiles.push({OldPDF:req.body.pathPDF})
             }
             if(req.files['file-MXL']) {
                 files.push({pathMXL:req.files['file-MXL'][0].filename})
+                oldFiles.push({OldMXL:req.body.pathMXL})
             }
             if(req.files['file-MP3']) {
                 files.push({pathMP3:req.files['file-MP3'][0].filename})
+                oldFiles.push({OldMP3:req.body.pathMP3})
             }
 
+            // Arquivos antigos
+            const pathPNG = req.body.pathPNG
+            const pathPDF = req.body.pathPDF
+            const pathMXL = req.body.pathMXL
+            const pathMP3 = req.body.pathMP3
+
             // validações
+            const id = req.body.id
             const nome = req.body.nome.trim()
-            const iframe = req.body.iframe.trim() || null
             const instrumento = req.body.instrumento.trim()
             const genero = req.body.genero.trim()
             const autor = req.body.autor.trim()
-
-
             let erros = []
 
             if(!nome) {
@@ -402,36 +410,50 @@ router.post('/editMusica', (req,res) => {
             if(erros.length > 0) {
                 files.forEach(item => {
                     for (let key in item) {
-                        fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`))
+                        fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                            // if (err) { console.log(err) }
+                        })
                     }
                 })
 
                 req.flash('erros', erros)
-                res.redirect('/admin/musica')
+                res.redirect(`/admin/musica/${id}`)
             } else {
+
+                // Verifica se foi enviado algum arquivo e apaga o antigo
+             oldFiles.forEach(item => {
+                    for (let key in item) {
+                        fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                            // if (err) { console.log(err) }
+                        })
+                    }
+                })
                 // salvando no banco de dados
-                Musica.create({
+                Musica.update({
                     nome:nome,
-                    iframe:iframe,
-                    pathPNG: files.find(file => file.pathPNG) ?.pathPNG || null,
-                    pathPDF: files.find(file => file.pathPDF) ?.pathPDF || null,
-                    pathMXL: files.find(file => file.pathMXL) ?.pathMXL || null,
-                    pathMP3: files.find(file => file.pathMP3) ?.pathMP3 || null,
+                    pathPNG: files.find(file => file.pathPNG) ?.pathPNG || pathPNG,
+                    pathPDF: files.find(file => file.pathPDF) ?.pathPDF || pathPDF,
+                    pathMXL: files.find(file => file.pathMXL) ?.pathMXL || pathMXL,
+                    pathMP3: files.find(file => file.pathMP3) ?.pathMP3 || pathMP3,
                     instrumento_id: instrumento,
                     genero_id: genero,
                     autor_id: autor,
-                }).then(() =>{
-                    req.flash('success_msg','Musica salva com sucesso')
-                    res.redirect('/admin/musica')
+                },{where:{id:id}}).then(() =>{
+                    req.flash('success_msg','Musica atualizada com sucesso')
+                    res.redirect(`/admin/musica/${id}`)
                     // tratando erros
                 }).catch((err) => {
                     files.forEach(item => {
                         for (let key in item) {
-                            fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`))
+                            fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                                if (err) {
+                                    // console.log(err)
+                                }
+                            })
                         }
                     })
-                    req.flash('error_msg', 'Erro ao salvar no Banco de dados')
-                    res.redirect('/admin/musica')
+                    req.flash('error_msg', 'Erro ao Atualizar o Banco de dados')
+                    res.redirect(`/admin/musica/${id}`)
                 })
             }
         }
@@ -472,7 +494,7 @@ router.post('/editAutor', (req,res) => {
                     // tenta apagar o antigo arquivo
                     fs.unlink(path.join(__dirname,`../server-files/autores/${pathFoto}`), (err) =>{
                         if (err) {
-                            console.log('ERRO:', err)
+                            // console.log(err)
                         }
                     })
                 }
@@ -481,17 +503,17 @@ router.post('/editAutor', (req,res) => {
                     nome:nome,
                     pathFoto:req.file.filename
                 },{where:{id:id}}).then(() =>{
-                    req.flash('success_msg','Autor salvo com sucesso')
+                    req.flash('success_msg','Autor Atualizado com sucesso')
                     res.redirect(`/admin/autor/${id}`)
                     // tratando erros
                 }).catch((err) => {
                     // Tenta apagar o arquivo caso dê erro
                     fs.unlink(path.join(__dirname,`../server-files/autores/${req.file.filename}`), (err) =>{
                         if (err) {
-                            console.log('ERRO:', err)
+                            // console.log(err)
                         }
                     })
-                    req.flash('error_msg', 'Erro ao salvar no Banco de dados')
+                    req.flash('error_msg', 'Erro ao Atualizar o Banco de dados')
                     res.redirect(`/admin/autor/${id}`)
                 })
             }
@@ -566,6 +588,124 @@ router.post('/editInstrumento', (req,res) => {
         })
     }
 })
+
+// Rotas GET Deletar
+router.get('/delMusica/:id', (req,res) => {
+    const id = req.params.id
+    Musica.findOne({where:{id:id}}).then((musica) => {
+        // salva as músicas para caso falhe em deletar do banco
+        musica_json = musica.toJSON()
+        files = [
+            musica_json.pathPNG,
+            musica_json.pathMXL,
+            musica_json.pathMP3,
+            musica_json.pathPDF
+        ]
+        musica.destroy().then(() => {
+            // Pega cada um dos arquivos da música
+            files.forEach(item => {                
+                // deleta esses arquivos
+                fs.unlink(path.join(__dirname,`../server-files/musicas/${item}`), (err) =>{
+                    if (err) {
+                        // console.log(err)
+                    }
+                })
+            })
+            // redireciona
+            req.flash('success_msg', 'Música deletada com sucesso')
+            res.redirect('/admin')
+        // tratando erros
+        }).catch((err) => {
+            req.flash('error_msg', 'Erro ao tentar deletar música')
+            res.redirect('/admin')
+        })
+    }).catch((err) => {
+        console.log(err)
+        req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
+        res.redirect('/admin')
+    })
+})
+
+router.get('/delAutor/:id', (req,res) => {
+    const id = req.params.id
+    
+
+})
+
+router.get('/delGenero/:id', (req,res) => {
+    const id = req.params.id
+    Musica.findOne({where:{genero_id:id}}).then((musica) => {
+        // salva as músicas para caso falhe em deletar do banco
+        musica_json = musica.toJSON()
+        files = [
+            musica_json.pathPNG,
+            musica_json.pathMXL,
+            musica_json.pathMP3,
+            musica_json.pathPDF
+        ]
+        musica.destroy().then(() => {
+            // Pega cada um dos arquivos da música
+            files.forEach(item => {                
+                // deleta esses arquivos
+                fs.unlink(path.join(__dirname,`../server-files/musicas/${item}`), (err) =>{
+                    if (err) {
+                        // console.log(err)
+                    }
+                })
+            })
+            // redireciona
+            req.flash('success_msg', 'Autor e Músicas deletadas com sucesso')
+            res.redirect('/admin')
+        // tratando erros
+        }).catch((err) => {
+            req.flash('error_msg', 'Erro ao tentar deletar música')
+            res.redirect('/admin')
+        })
+    }).catch((err) => {
+        console.log(err)
+        req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
+        res.redirect('/admin')
+    })
+
+})
+
+router.get('/delInstrumento/:id', (req,res) => {
+    const id = req.params.id
+    Musica.findOne({where:{genero_id:id}}).then((musica) => {
+        // salva as músicas para caso falhe em deletar do banco
+        musica_json = musica.toJSON()
+        files = [
+            musica_json.pathPNG,
+            musica_json.pathMXL,
+            musica_json.pathMP3,
+            musica_json.pathPDF
+        ]
+        musica.destroy().then(() => {
+            // Pega cada um dos arquivos da música
+            files.forEach(item => {                
+                // deleta esses arquivos
+                fs.unlink(path.join(__dirname,`../server-files/musicas/${item}`), (err) =>{
+                    if (err) {
+                        // console.log(err)
+                    }
+                })
+            })
+            // redireciona
+            req.flash('success_msg', 'Autor e Músicas deletadas com sucesso')
+            res.redirect('/admin')
+        // tratando erros
+        }).catch((err) => {
+            req.flash('error_msg', 'Erro ao tentar deletar música')
+            res.redirect('/admin')
+        })
+    }).catch((err) => {
+        console.log(err)
+        req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
+        res.redirect('/admin')
+    })
+
+})
+
 
 // exportação
 module.exports = router

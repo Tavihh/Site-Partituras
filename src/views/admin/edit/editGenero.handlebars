@@ -8,7 +8,7 @@
             <input type="hidden" name="id" value="{{genero.id}}">
             <input type="text" name="genero" id="genero" class="form-input" placeholder="Gênero" value="{{genero.nome}}">
             <input type="submit" value="Atualizar" class="form-submit">
-            <input type="button" value="Deletar" class="form-submit danger">
+            <input type="button" value="Deletar" class="form-submit danger" onclick="location.href = '/admin/delGenero/{{genero.id}}'">
             <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
         </form>
     </div>

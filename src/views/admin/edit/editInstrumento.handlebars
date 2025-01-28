@@ -9,7 +9,7 @@
             <input type="text" name="instrumento" id="instrumento" class="form-input" placeholder="Instrumento" value="{{instrumento.nome}}">
             <input type="text" name="nomeExibicao" id="nomeExibicao" class="form-input" placeholder="Nome de Exibição" value="{{instrumento.nomeExibicao}}">
             <input type="submit" value="Atualizar" class="form-submit">
-            <input type="button" value="Deletar" class="form-submit danger">
+            <input type="button" value="Deletar" class="form-submit danger" onclick="location.href = '/admin/delInstrumento/{{instrumento.id}}'">
             <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
         </form>
     </div>

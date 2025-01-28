@@ -4,9 +4,9 @@
     {{>_message}}
     <div class="form-body">
         <h2>Música</h2>
-        <form action="/admin/addMusica" method="post" enctype="multipart/form-data">
-            <input type="text" name="nome" id="nome" class="form-input" placeholder="Nome da Música">
-            <input type="text" name="iframe" id="iframe" class="form-input" placeholder="Iframe">
+        <form action="/admin/editMusica" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{musica.id}}">
+            <input type="text" name="nome" id="nome" class="form-input" placeholder="Nome da Música" value="{{musica.nome}}">
 
             <select name="autor" id="autor" class="form-input">
                 {{#each autor}}
@@ -25,7 +25,12 @@
                 <option value="{{id}}">{{nome}}</option>
                 {{/each}}
             </select>
-
+            {{!-- Arquivos Antigos --}}
+            <input type="hidden" name="pathPNG" value="{{musica.pathPNG}}">
+            <input type="hidden" name="pathPDF" value="{{musica.pathPDF}}">
+            <input type="hidden" name="pathMXL" value="{{musica.pathMXL}}">
+            <input type="hidden" name="pathMP3" value="{{musica.pathMP3}}">
+            
             {{!-- Arquivos --}}
             <label for="file-PNG" class="form-file" id="form-PNG">PNG</label>
             <label for="file-PDF" class="form-file" id="form-PDF">PDF</label>
@@ -38,7 +43,7 @@
             <input type="file" name="file-MP3" id="file-MP3" class="form-file-hidden">
 
             <input type="submit" value="Atualizar" class="form-submit">
-            <input type="button" value="Deletar" class="form-submit danger">
+            <input type="button" value="Deletar" class="form-submit danger" onclick="location.href = '/admin/delMusica/{{musica.id}}'">
             <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
         </form>
     </div>
