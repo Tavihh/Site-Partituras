@@ -70,10 +70,30 @@ router.get('/musica/:id', (req,res) => {
         Genero.findAll(),
         Autor.findAll()
     ]).then(([musica, instrumento, genero, autor]) => {
-        res.locals.musica = musica.toJSON()
-        res.locals.instrumento = instrumento.map(item => item.toJSON())
-        res.locals.genero = genero.map(item => item.toJSON())
-        res.locals.autor = autor.map(item => item.toJSON())
+       res.locals.musica = musica.toJSON()
+        // Adiciona os Selecteds e converte para JSON
+       res.locals.instrumento = instrumento.map(item => {
+            item = item.toJSON()
+            if (item.id == musica.instrumento_id) {
+                item.selected = true
+            }
+            return item
+        })
+       res.locals.genero = genero.map(item => {
+            item = item.toJSON()
+            if (item.id == musica.genero_id) {
+                item.selected = true
+            }
+            return item
+        })
+       res.locals.autor = autor.map(item => {
+            item = item.toJSON()
+            if (item.id == musica.autor_id) {
+                item.selected = true
+            }
+            return item
+        })
+
         // renderizando a tela
         res.render('admin/edit/editMusica', {layout:'admin'})
 
@@ -589,7 +609,7 @@ router.post('/editInstrumento', (req,res) => {
     }
 })
 
-// Rotas GET Deletar
+// Rotas Get Deletar
 router.get('/delMusica/:id', (req,res) => {
     const id = req.params.id
     Musica.findOne({where:{id:id}}).then((musica) => {
@@ -628,82 +648,55 @@ router.get('/delMusica/:id', (req,res) => {
 
 router.get('/delAutor/:id', (req,res) => {
     const id = req.params.id
-    
+    Autor.findOne({where:{id:id}}).then((autor) => {
+        // salva as músicas para caso falhe em deletar do banco
+        const autor_json = autor.toJSON()
+        const pathFoto = autor_json.pathFoto
 
+        autor.destroy().then(() => {
+            // deleta esses arquivos
+            fs.unlink(path.join(__dirname,`../server-files/autores/${pathFoto}`), (err) =>{
+                if (err) {
+                    // console.log(err)
+                }
+            })
+            // redireciona
+            req.flash('success_msg', 'Autor deletado com sucesso')
+            res.redirect('/admin')
+        // tratando erros
+        }).catch((err) => {
+            req.flash('error_msg', 'Erro ao tentar deletar Autor')
+            res.redirect('/admin')
+        })
+    }).catch((err) => {
+        console.log(err)
+        req.flash('error_msg','informações necessárias não encontradas ou Autor não existe')
+        res.redirect('/admin')
+    })
 })
 
 router.get('/delGenero/:id', (req,res) => {
     const id = req.params.id
-    Musica.findOne({where:{genero_id:id}}).then((musica) => {
-        // salva as músicas para caso falhe em deletar do banco
-        musica_json = musica.toJSON()
-        files = [
-            musica_json.pathPNG,
-            musica_json.pathMXL,
-            musica_json.pathMP3,
-            musica_json.pathPDF
-        ]
-        musica.destroy().then(() => {
-            // Pega cada um dos arquivos da música
-            files.forEach(item => {                
-                // deleta esses arquivos
-                fs.unlink(path.join(__dirname,`../server-files/musicas/${item}`), (err) =>{
-                    if (err) {
-                        // console.log(err)
-                    }
-                })
-            })
-            // redireciona
-            req.flash('success_msg', 'Autor e Músicas deletadas com sucesso')
-            res.redirect('/admin')
-        // tratando erros
-        }).catch((err) => {
-            req.flash('error_msg', 'Erro ao tentar deletar música')
-            res.redirect('/admin')
-        })
+    Genero.destroy({where:{id:id}}).then(() => {
+        req.flash('success_msg', 'Gênero deletado com sucesso')
+        res.redirect('/admin')
     }).catch((err) => {
         console.log(err)
-        req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
+        req.flash('error_msg','informações necessárias não encontradas ou Gênero não existe')
         res.redirect('/admin')
     })
-
 })
 
 router.get('/delInstrumento/:id', (req,res) => {
     const id = req.params.id
-    Musica.findOne({where:{genero_id:id}}).then((musica) => {
-        // salva as músicas para caso falhe em deletar do banco
-        musica_json = musica.toJSON()
-        files = [
-            musica_json.pathPNG,
-            musica_json.pathMXL,
-            musica_json.pathMP3,
-            musica_json.pathPDF
-        ]
-        musica.destroy().then(() => {
-            // Pega cada um dos arquivos da música
-            files.forEach(item => {                
-                // deleta esses arquivos
-                fs.unlink(path.join(__dirname,`../server-files/musicas/${item}`), (err) =>{
-                    if (err) {
-                        // console.log(err)
-                    }
-                })
-            })
-            // redireciona
-            req.flash('success_msg', 'Autor e Músicas deletadas com sucesso')
-            res.redirect('/admin')
-        // tratando erros
-        }).catch((err) => {
-            req.flash('error_msg', 'Erro ao tentar deletar música')
-            res.redirect('/admin')
-        })
+    Instrumento.destroy({where:{id:id}}).then(() => {
+        req.flash('success_msg', 'Instrumento deletado com sucesso')
+        res.redirect('/admin')
     }).catch((err) => {
         console.log(err)
-        req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
+        req.flash('error_msg','informações necessárias não encontradas ou Instrumento não existe')
         res.redirect('/admin')
     })
-
 })
 
 

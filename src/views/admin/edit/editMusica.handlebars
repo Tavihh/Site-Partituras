@@ -10,19 +10,19 @@
 
             <select name="autor" id="autor" class="form-input">
                 {{#each autor}}
-                <option value="{{id}}">{{nome}}</option>
+                <option value="{{id}}" {{#if selected}} selected {{/if}}>{{nome}}</option>
                 {{/each}}
             </select>
             
             <select name="genero" id="genero" class="form-input">
                 {{#each genero}}
-                <option value="{{id}}">{{nome}}</option>
+                <option value="{{id}}" {{#if selected}} selected {{/if}}>{{nome}}</option>
                 {{/each}}
             </select>
             
             <select name="instrumento" id="instrumento" class="form-input">
                 {{#each instrumento}}
-                <option value="{{id}}">{{nome}}</option>
+                <option value="{{id}}" {{#if selected}} selected {{/if}}>{{nome}}</option>
                 {{/each}}
             </select>
             {{!-- Arquivos Antigos --}}
