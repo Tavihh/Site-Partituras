@@ -43,16 +43,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nome</th>
+                    <th>Foto</th>
                 </tr>
             </thead>
     
             <tbody>
                 {{#each autores}}
                 <tr onclick="location.href='/admin/autor/{{id}}'">
-                    <td>{{id}}</td>
                     <td>{{nome}}</td>
+                    <td class="td-img"><img src="/server-files/autores/{{pathFoto}}" alt=""></td>
                 </tr>
                 {{/each}}
             </tbody>

@@ -9,7 +9,7 @@ const autor = multer.diskStorage({
         cb(null,`${Date.now()}-${file.originalname}`)
     },
     destination: (req, file, cb) => {
-        cb(null,path.join(__dirname,'../server-files/autores'))
+        cb(null,path.join(__dirname,'../public/server-files/autores'))
     }
 })
 
@@ -18,7 +18,7 @@ const musica = multer.diskStorage({
         cb(null,`${uuidv4()}-${file.originalname}`)
     },
     destination: (req, file, cb) => {
-        cb(null,path.join(__dirname,'../server-files/musicas'))
+        cb(null,path.join(__dirname,'../public/server-files/musicas'))
     }
 })
 

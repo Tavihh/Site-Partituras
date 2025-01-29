@@ -54,6 +54,7 @@ h3 {
 .musicas {
     display: flex;
     overflow: auto;
+    min-height: 200px;
     gap: 8px;
     z-index: -1;
     padding: 10px 0px;
@@ -61,10 +62,10 @@ h3 {
 }
 
 /* Animações */
-.carroselLeft {
+.musicas:nth-child(even) {
     animation: carroselLeft 2s ease-in-out forwards;
 }
-.carroselRight {
+.musicas:nth-child(odd) {
     animation: carroselRight 2s ease-in-out forwards;
 }
 

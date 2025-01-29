@@ -4,6 +4,13 @@ main {
     padding: 20px;
     color: white;
 }
+main h4 {
+    max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+    text-indent: 20px;
+    margin: auto;
+}
 
 main .apresentacao {
     display: flex;
@@ -44,6 +51,7 @@ main .apresentacao img {
     border-radius: 50%;
     height: 50px;
     width: 50px;
+    overflow: hidden;
 }
 
 .foto-perfil img {
@@ -98,5 +106,111 @@ h2 {
     color: white;
     text-align: center;
     padding: 15px;
+}
+
+/* Seção das partituras */
+h3 {
+    color: white;
+    text-indent: 40px;
+}
+
+/* Botões de rolagem lateral */
+.botoes {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px -20px;
+    height: 240px;
+    width: 100vw;
+}
+
+.btn-right, .btn-left {
+    all:unset;
+    pointer-events: all;
+    width: 50px;
+    height: 90px;
+    transition: translate 0.5s;
+}
+
+.btn-left {
+    background: url(/imagens/arrow-left.png) center center no-repeat;
+    background-size: contain;
+}
+
+.btn-right {
+    background: url(/imagens/arrow-right.png) center center no-repeat ;
+    background-size: contain;
+}
+
+.btn-right:hover,.btn-left:hover {
+    cursor: pointer;
+    translate: 0px -10px;
+}
+
+/* Seção das músicas */
+.musicas {
+    min-height: 200px;
+    display: flex;
+    overflow: auto;
+    gap: 8px;
+    z-index: -1;
+    padding: 10px 0px;
+    margin: 0px 20px;
+}
+
+/* Animações */
+.carroselLeft {
+    animation: carroselLeft 2s ease-in-out forwards;
+}
+
+/* Estilo dos cards */
+.card {
+    width: 140px;
+    color: white;
+    background-color: #111;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    scroll-behavior: smooth;
+    transition: transform 1s, text-decoration 1s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    text-decoration: underline;
+    text-decoration-color: #1183d6;
+    background-color: #1a1818;
+}
+
+.card img {
+    width: 100%;
+    border-radius: inherit;
+    background-size: contain;
+}
+
+/* Versão mobile */
+@media screen and ( max-width:600px ) {
+    h3 {
+    text-indent: 0px;
+    }
+    .botoes {
+        display: none;
+    }
+    .musicas {
+        margin: 0px;
+    }
+}
+
+
+/* Animações */
+@keyframes carroselLeft {
+    from {
+        transform: translateX(-100vw);
+    }
+    to {
+        transform: translateX(0px);
+    }
 }
 

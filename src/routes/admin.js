@@ -206,7 +206,7 @@ router.post('/addMusica', (req,res) => {
                 // Apagando arquivos enviados
                 files.forEach(item => {
                     for (let key in item) {
-                        fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                        fs.unlink(path.join(__dirname,`../public/server-files/musicas/${item[key]}`), (err) =>{
                             if (err) {
                                 // console.log(err)
                             }
@@ -234,7 +234,7 @@ router.post('/addMusica', (req,res) => {
                 }).catch((err) => {
                     files.forEach(item => {
                         for (let key in item) {
-                            fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                            fs.unlink(path.join(__dirname,`../public/server-files/musicas/${item[key]}`), (err) =>{
                                 if (err) {
                                     console.log('ERRO:', err)
                                 }
@@ -283,7 +283,7 @@ router.post('/addAutor', (req,res) => {
                     // tratando erros
                 }).catch((err) => {
                     // tenta apagar o arquivo em caso de erro
-                    fs.unlink(path.join(__dirname,`../server-files/autores/${req.file.filename}`), (err) =>{
+                    fs.unlink(path.join(__dirname,`../public/server-files/autores/${req.file.filename}`), (err) =>{
                         if (err) {
                             console.log('ERRO:', err)
                         }
@@ -430,7 +430,7 @@ router.post('/editMusica', (req,res) => {
             if(erros.length > 0) {
                 files.forEach(item => {
                     for (let key in item) {
-                        fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                        fs.unlink(path.join(__dirname,`../public/server-files/musicas/${item[key]}`), (err) =>{
                             // if (err) { console.log(err) }
                         })
                     }
@@ -443,7 +443,7 @@ router.post('/editMusica', (req,res) => {
                 // Verifica se foi enviado algum arquivo e apaga o antigo
              oldFiles.forEach(item => {
                     for (let key in item) {
-                        fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                        fs.unlink(path.join(__dirname,`../public/server-files/musicas/${item[key]}`), (err) =>{
                             // if (err) { console.log(err) }
                         })
                     }
@@ -465,7 +465,7 @@ router.post('/editMusica', (req,res) => {
                 }).catch((err) => {
                     files.forEach(item => {
                         for (let key in item) {
-                            fs.unlink(path.join(__dirname,`../server-files/musicas/${item[key]}`), (err) =>{
+                            fs.unlink(path.join(__dirname,`../public/server-files/musicas/${item[key]}`), (err) =>{
                                 if (err) {
                                     // console.log(err)
                                 }
@@ -512,7 +512,7 @@ router.post('/editAutor', (req,res) => {
                 // Verifica se foi enviado algum arquivo
                 if(req.file) {
                     // tenta apagar o antigo arquivo
-                    fs.unlink(path.join(__dirname,`../server-files/autores/${pathFoto}`), (err) =>{
+                    fs.unlink(path.join(__dirname,`../public/server-files/autores/${pathFoto}`), (err) =>{
                         if (err) {
                             // console.log(err)
                         }
@@ -528,7 +528,7 @@ router.post('/editAutor', (req,res) => {
                     // tratando erros
                 }).catch((err) => {
                     // Tenta apagar o arquivo caso dê erro
-                    fs.unlink(path.join(__dirname,`../server-files/autores/${req.file.filename}`), (err) =>{
+                    fs.unlink(path.join(__dirname,`../public/server-files/autores/${req.file.filename}`), (err) =>{
                         if (err) {
                             // console.log(err)
                         }
@@ -625,7 +625,7 @@ router.get('/delMusica/:id', (req,res) => {
             // Pega cada um dos arquivos da música
             files.forEach(item => {                
                 // deleta esses arquivos
-                fs.unlink(path.join(__dirname,`../server-files/musicas/${item}`), (err) =>{
+                fs.unlink(path.join(__dirname,`../public/server-files/musicas/${item}`), (err) =>{
                     if (err) {
                         // console.log(err)
                     }
@@ -655,7 +655,7 @@ router.get('/delAutor/:id', (req,res) => {
 
         autor.destroy().then(() => {
             // deleta esses arquivos
-            fs.unlink(path.join(__dirname,`../server-files/autores/${pathFoto}`), (err) =>{
+            fs.unlink(path.join(__dirname,`../public/server-files/autores/${pathFoto}`), (err) =>{
                 if (err) {
                     // console.log(err)
                 }
