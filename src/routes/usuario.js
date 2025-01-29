@@ -3,13 +3,14 @@ const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const passport = require('../config/auth')
+const { logado , naoLogado} = require('../helpers/logado')
 
 // rotas
-router.get('/login', (req,res) => {
+router.get('/login', naoLogado, (req,res) => {
     res.render('usuario/login')
 })
 
-router.post('/login',(req,res,next)=>{
+router.post('/login', naoLogado, (req,res,next)=>{
     passport.authenticate('local', {
         successRedirect:'/',
         failureRedirect:'/usuario/login',
@@ -17,11 +18,11 @@ router.post('/login',(req,res,next)=>{
     })(req,res,next)
 })
 
-router.get('/registrar', (req,res) => {
+router.get('/registrar', naoLogado, (req,res) => {
     res.render('usuario/registrar')
 })
 
-router.post('/registrar', (req,res) => {
+router.post('/registrar', naoLogado, (req,res) => {
     // função que capitaliza as palavras
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -108,18 +109,18 @@ router.post('/registrar', (req,res) => {
     }
 })
 
-router.get('/logout',(req,res)=>{
+router.get('/logout', naoLogado, (req,res)=>{
     req.logout(()=>{
         req.flash('success_msg','Deslogado com sucesso')
         res.redirect('/')
     })
 })
 
-router.get('/conta', (req,res) => {
+router.get('/conta', logado, (req,res) => {
     res.render('usuario/conta')
 })
 
-router.post('/atualizarDados', (req,res) => {
+router.post('/atualizarDados', logado, (req,res) => {
     // função que capitaliza as palavras
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -199,7 +200,7 @@ router.post('/atualizarDados', (req,res) => {
     }
 })
 
-router.post('/atualizarSenha', (req,res) => {
+router.post('/atualizarSenha', logado, (req,res) => {
     let senha = req.body.senha.trim()
     let newsenha = req.body.newsenha.trim()
     let newsenha2 = req.body.newsenha2.trim()

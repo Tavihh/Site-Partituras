@@ -8,7 +8,7 @@
     <div class="menu-body">
         <div class="menu-conteudo">
             <div>
-                <button class="foto-perfil" onclick="javascript:location.href ='/autor/'">
+                <button class="foto-perfil" onclick="javascript:location.href ='/autor/{{musica.autore.id}}'">
                     <picture>
                         <img src="/server-files/autores/{{musica.autore.pathFoto}}" alt="Foto do autor"
                             onerror="this.onerror=null; this.src='/imagens/account.png';">
@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="menu-dados">
-                <h1><a href="">{{musica.autore.nome}}</a></h1>
+                <h1><a href="/autor/{{musica.autore.id}}">{{musica.autore.nome}}</a></h1>
                 <p>{{musica.instrumento.nome}} - {{musica.genero.nome}}</p>
             </div>
         </div>
