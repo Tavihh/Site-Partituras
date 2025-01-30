@@ -14,15 +14,16 @@ main h4 {
 
 main .apresentacao {
     display: flex;
-    max-width: 600px;
+    max-width: 500px;
     min-height: 300px;
-    width: max-content;
+    /* width: max-content; */
     margin: auto;
     border-radius: 20px;
     background-color: white;
     color: black;
     align-items: center;
     text-align: center;
+    overflow: hidden;
 }
 
 main .apresentacao img {
