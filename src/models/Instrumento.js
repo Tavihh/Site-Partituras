@@ -11,7 +11,13 @@ const Instrumento = sq.define('instrumentos', {
     nomeExibicao: {
         type: DataTypes.STRING,
         allowNull:false
+    },
+    order_index: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
     }
+    
 })
 
 // sincronizando tabela

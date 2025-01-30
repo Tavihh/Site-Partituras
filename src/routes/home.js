@@ -11,7 +11,7 @@ const Iframe = require('../models/Iframe');
 // rotas
 router.get('/', async (req,res) => {
     // Busca os Instrumentos
-    let instrumentos = await Instrumento.findAll();
+    let instrumentos = await Instrumento.findAll({order:[['order_index', 'ASC']]});
     instrumentos = await Promise.all(instrumentos.map(async (item) => {
         item = item.toJSON()
         // Para cada instrumento ele busca suas músicas
@@ -34,9 +34,10 @@ router.get('/partitura/:id', async (req,res) => {
         where:{id:id},
         include:[
             {model:Autor,attributes:['id','nome','pathFoto']},
-            {model:Instrumento,attributes:['id','nome']},
+            {model:Instrumento,attributes:['id','nome','order_index']},
             {model:Genero,attributes:['id','nome']}
-        ]
+        ],
+        order: [[Instrumento,'order_index', 'ASC']]
     }).then(async (musica) => {
         let musicas = await Musica.findAll({where:{instrumento_id:musica.instrumento_id}})
         let iframe = await Iframe.findOne({where:{musica_id:id, status:'aprovado'}}) 
@@ -66,7 +67,7 @@ router.get('/pesquisa', async (req,res) => {
     // Busca os Autores
     let autores = await Autor.findAll({where:{nome:{[Op.like]:`%${psq}%`}}})
     // Busca os Instrumentos
-    let instrumentos = await Instrumento.findAll();
+    let instrumentos = await Instrumento.findAll({order: [['order_index', 'ASC']]});
     instrumentos = await Promise.all(instrumentos.map(async (item) => {
         item = item.toJSON()
         // Para cada instrumento ele busca suas músicas

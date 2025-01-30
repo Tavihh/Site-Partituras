@@ -17,7 +17,7 @@ router.get('/', (req,res) => {
     Promise.all([
         Musica.findAll({include:[{model:Instrumento, attributes:['id','nome']}]}),
         Autor.findAll(),
-        Instrumento.findAll(),
+        Instrumento.findAll({order: [['order_index', 'ASC']]}),
         Genero.findAll(),
         Iframe.findAll({include:[
             {model:Instrumento, attributes:['id','nome']},
@@ -54,7 +54,7 @@ router.get('/psq', (req,res) => {
         Instrumento.findAll({where:{[Op.or]:[
             {nome:{[Op.like]:`%${psq}%`}},
             {nomeExibicao:{[Op.like]:`%${psq}%`}}
-        ]}}),
+        ]}, order: [['order_index', 'ASC']]}),
         Genero.findAll({where:{nome:{[Op.like]:`%${psq}%`}}}),
         Iframe.findAll({include:[
             {model:Instrumento, attributes:['id','nome']},
@@ -161,6 +161,50 @@ router.get('/view/:uuid', (req,res) => {
         req.flash('error_msg', 'Interpretação não encontrada')
         res.redirect('/admin/interpretacoes')
     })
+})
+
+router.get('/trocaOrdem/:id/:direction', async(req,res) => {
+
+    const direction = req.params.direction; 
+    const id = req.params.id;
+
+    try {
+        // Encontramos a instrumento atual pelo ID
+        const instrumentoAtual = await Instrumento.findByPk(id);
+        if (!instrumentoAtual) return res.status(404).send('instrumento não encontrado');
+
+        // Define se a busca será para cima ou para baixo
+        const operador = direction === 'up' ? Op.lt : Op.gt;  // LT = menor que | GT = maior que
+        const ordem = direction === 'up' ? 'DESC' : 'ASC';    // Descendente ao subir, ascendente ao descer
+
+        // Buscamos o instrumento vizinho com base no order_index
+        const instrumentoVizinha = await Instrumento.findOne({
+            where: { 
+                order_index: { [operador]: instrumentoAtual.order_index }
+            },
+            order: [['order_index', ordem]] // Ordenamos para pegar a instrumento correta
+        });
+
+        if (!instrumentoVizinha){
+            req.flash('error_msg','Não pode mover mais')
+            res.redirect('/admin')
+        };
+
+        // Trocamos os valores do order_index entre as duas instrumentos
+        const temp = instrumentoAtual.order_index;
+        instrumentoAtual.order_index = instrumentoVizinha.order_index;
+        instrumentoVizinha.order_index = temp;
+
+        // Salvamos as mudanças no banco
+        await instrumentoAtual.save();
+        await instrumentoVizinha.save();
+
+        req.flash('success_msg', 'Ordem mudada com sucesso')
+        res.redirect('/admin');
+    } catch (error) {
+        req.flash('error_msg','Erro ao alterar ordem');
+        res.redirect('/admin');
+    }    
 })
 
 
@@ -519,32 +563,33 @@ router.post('/addGenero', (req,res) => {
     }
 })
 
-router.post('/addInstrumento', (req,res) => {
-    const nome = req.body.instrumento
-    const nomeExibicao = req.body.nomeExibicao
+router.post('/addInstrumento',async (req,res) => {
+    const nome = await req.body.instrumento
+    const nomeExibicao = await req.body.nomeExibicao
 
     // verificando os inputs
-    let erros = []
+    let erros = await []
 
     if(!nome) {
-        erros.push({texto:'Nome inválido'})
+       await erros.push({texto:'Nome inválido'})
     }
     if(!nomeExibicao) {
-        erros.push({texto:'Nome de Exibição inválido'})
+       await erros.push({texto:'Nome de Exibição inválido'})
     }
     if(nome < 3) {
-        erros.push({texto:'Nome muito curto'})
+       await erros.push({texto:'Nome muito curto'})
     }
     if(nomeExibicao < 3) {
-        erros.push({texto:'Nome de Exibição muito curto'})
+       await erros.push({texto:'Nome de Exibição muito curto'})
     }
     // retornando os erros
     if(erros.length > 0) {
-        res.render('admin/add/addInstrumento', {erros})
+        await res.render('admin/add/addInstrumento', {erros})
     } else {
         Instrumento.create({
             nome:nome,
-            nomeExibicao:nomeExibicao
+            nomeExibicao:nomeExibicao,
+            order_index: await Instrumento.max('order_index') + 1  // Pega o maior valor de order_index e adiciona 1
         }).then(() => {
             req.flash('success_msg', 'Instrumento cadastrado com sucesso')
             res.redirect('/admin/instrumento')

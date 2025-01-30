@@ -101,14 +101,19 @@
                 <tr>
                     <th>Nome</th>
                     <th>Nome de Exibição</th>
+                    <th>Func</th>
                 </tr>
             </thead>
     
             <tbody>
                 {{#each instrumentos}}
-                <tr onclick="location.href='/admin/instrumento/{{id}}'">
-                    <td>{{nome}}</td>
-                    <td>{{nomeExibicao}}</td>
+                <tr>
+                    <td onclick="location.href='/admin/instrumento/{{id}}'">{{nome}}</td>
+                    <td onclick="location.href='/admin/instrumento/{{id}}'">{{nomeExibicao}}</td>
+                    <td>
+                        <button onclick="location.href = '/admin/trocaOrdem/{{id}}/up'"><img src="/imagens/icons/arrow_up.png" alt=""></button>
+                        <button onclick="location.href = '/admin/trocaOrdem/{{id}}/down'"><img src="/imagens/icons/arrow_down.png" alt=""></button>
+                    </td>
                 </tr>
                 {{/each}}
             </tbody>

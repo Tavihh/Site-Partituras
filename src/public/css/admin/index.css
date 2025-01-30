@@ -39,11 +39,25 @@ section form input {
     flex: 1;
 }
 
-section button {
+section form button {
     cursor: pointer;
     width: 25px;
     height: 25px;
     background: #333 url('/imagens/icons/search.png') no-repeat center center;
+    background-size: 15px;
+    opacity: 0.7;
+    border-radius: 5px;
+}
+
+section button:hover {
+    opacity: 1;
+}
+
+section table tbody button {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    background: #333 no-repeat center center;
     background-size: 15px;
     opacity: 0.7;
     border-radius: 5px;
