@@ -4,8 +4,10 @@
         {{#if iframe}}
             {{{iframe.iframeCode}}}
         {{else}}
-        <p style="padding: 10px;">Se Grave tocando, poste no instagram e nos envie, A melhor interpretação aparece aqui!</p>
-        <button onclick="location.href = '/usuario/enviarIframe/{{musica.id}}/{{musica.instrumento.id}}/{{musica.autore.id}}'">Enviar</button>
+        <div>
+            <p style="padding: 10px;">Se Grave tocando, poste no instagram e nos envie, A melhor interpretação aparece aqui!</p>
+            <button onclick="location.href = '/usuario/enviarIframe/{{musica.id}}/{{musica.instrumento.id}}/{{musica.autore.id}}'">Enviar</button>
+        </div>
         {{/if}}
     </div>
 
