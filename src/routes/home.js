@@ -39,15 +39,16 @@ router.get('/partitura/:id', async (req,res) => {
         ]
     }).then(async (musica) => {
         let musicas = await Musica.findAll({where:{instrumento_id:musica.instrumento_id}})
-        let iframe = await Iframe.findOne({where:{musica_id:id, status:'aprovado'}})
-
+        let iframe = await Iframe.findOne({where:{musica_id:id, status:'aprovado'}}) 
+        if (iframe) {
+            await viewsIframe(iframe.UUID)
+            res.locals.iframe = iframe.toJSON()
+        }
         res.locals.musica = musica.toJSON()
         res.locals.musicas = musicas.map(item => item.toJSON())
-        res.locals.iframe = iframe.toJSON()
 
         
         // Incrementa as Views
-        await viewsIframe(iframe.UUID)
         await viewsMusica(id)
 
         // Renderiza
