@@ -36,12 +36,12 @@ h3 {
 }
 
 .btn-left {
-    background: url(/imagens/arrow-left.png) center center no-repeat;
+    background: url(/imagens/icons/arrow-left.png) center center no-repeat;
     background-size: contain;
 }
 
 .btn-right {
-    background: url(/imagens/arrow-right.png) center center no-repeat ;
+    background: url(/imagens/icons/arrow-right.png) center center no-repeat ;
     background-size: contain;
 }
 

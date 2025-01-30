@@ -16,6 +16,7 @@ main .apresentacao {
     display: flex;
     max-width: 600px;
     min-height: 300px;
+    width: max-content;
     margin: auto;
     border-radius: 20px;
     background-color: white;
@@ -26,6 +27,22 @@ main .apresentacao {
 
 main .apresentacao img {
     height: 100%;
+}
+
+main .apresentacao button {
+    cursor: pointer;
+    padding: 5px;
+    border: 3px solid #333;
+    background-color: lightgrey;
+    font-size: 1.1em;
+    color: #333;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+main .apresentacao button:hover {
+    background-color: #333;
+    color: white;
 }
 
 /** Estilo do menu**/
@@ -49,8 +66,8 @@ main .apresentacao img {
 .foto-perfil {
     display: inline;
     border-radius: 50%;
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     overflow: hidden;
 }
 
@@ -64,7 +81,7 @@ main .apresentacao img {
 .menu-dados h1 {
     color: white;
     font-weight: 500;
-    font-size: 1.2em;
+    font-size: 0.9em;
 }
 
 .menu-dados p {
@@ -78,6 +95,7 @@ main .apresentacao img {
 }
 
 .menu-dados a:hover {
+    cursor: pointer;
     text-decoration: underline;
     text-decoration-color: #1183d6;
     transition: text-decoration 1s;
@@ -98,6 +116,7 @@ main .apresentacao img {
 }
 
 .menu-controls a:hover {
+    cursor: pointer;
     background-color: #333;
     color: #EBD065;
 }
@@ -135,12 +154,12 @@ h3 {
 }
 
 .btn-left {
-    background: url(/imagens/arrow-left.png) center center no-repeat;
+    background: url(/imagens/icons/arrow-left.png) center center no-repeat;
     background-size: contain;
 }
 
 .btn-right {
-    background: url(/imagens/arrow-right.png) center center no-repeat ;
+    background: url(/imagens/icons/arrow-right.png) center center no-repeat ;
     background-size: contain;
 }
 

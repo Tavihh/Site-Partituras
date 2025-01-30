@@ -1,8 +1,14 @@
 <link rel="stylesheet" href="/css/home/partitura.css">
 <main>
-    <h4><strong>{{musica.nome}}</strong></h4>
     <div class="apresentacao">
-        <p style="padding: 10px;">Se Grave tocando, poste no instagram e marque @trinados03, A melhor interpretação aparece aqui!</p>
+        <div>
+            {{#if iframe}}
+                {{{iframe.iframeCode}}}
+            {{else}}
+            <p style="padding: 10px;">Se Grave tocando, poste no instagram e nos envie, A melhor interpretação aparece aqui!</p>
+            <button onclick="location.href = '/usuario/enviarIframe/{{musica.id}}/{{musica.instrumento.id}}/{{musica.autore.id}}'">Enviar</button>
+            {{/if}}
+        </div>
     </div>
 
     <div class="menu-body">
@@ -17,6 +23,7 @@
             </div>
             <div class="menu-dados">
                 <h1><a href="/autor/{{musica.autore.id}}">{{musica.autore.nome}}</a></h1>
+                <h1>{{musica.nome}}</h1>
                 <p>{{musica.instrumento.nome}} - {{musica.genero.nome}}</p>
             </div>
         </div>

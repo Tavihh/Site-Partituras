@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="/css/home/partitura.css">
+<main>
+    <h4><strong>{{musica.nome}}</strong></h4>
+    <div class="apresentacao">
+        <div>
+            {{{iframe.iframeCode}}}
+        </div>
+    </div>
+
+    <div class="menu-body">
+        <div class="menu-conteudo">
+            <div>
+                <button class="foto-perfil" onclick="javascript:location.href ='/autor/{{iframe.autore.id}}'">
+                    <picture>
+                        <img src="/server-files/autores/{{iframe.autore.pathFoto}}" alt="Foto do autor"
+                            onerror="this.onerror=null; this.src='/imagens/account.png';">
+                    </picture>
+                </button>
+            </div>
+            <div class="menu-dados">
+                <h1><a href="/autor/{{iframe.autore.id}}">{{iframe.autore.nome}}</a></h1>
+                <p>{{iframe.instrumento.nome}}</p>
+            </div>
+            <button onclick="history.go(-1)">VOLTAR</button>
+        </div>
+        <div class="menu-controls">
+            {{#if iframe.musica.pathPDF}}
+            <a href="/server-files/musicas/{{iframe.musica.pathPDF}}" download="{{iframe.musica.nome}} - {{iframe.instrumento.nome}}.pdf" target="_blank">Part - PDF</a>
+            {{/if}}
+            {{#if iframe.musica.pathMXL}}
+            <a href="/server-files/musicas/{{iframe.musica.pathMXL}}" download="{{iframe.musica.nome}} - {{iframe.instrumento.nome}}.mxl" target="_blank">Part - MXL</a>
+            {{/if}}
+            {{#if iframe.musica.pathMP3}}
+            <a href="/server-files/musicas/{{iframe.musica.pathMP3}}" download="{{iframe.musica.nome}} - {{iframe.instrumento.nome}}.mp3" target="_blank">Playback</a>
+            {{/if}}
+        </div>
+    </div>
+
+</main>

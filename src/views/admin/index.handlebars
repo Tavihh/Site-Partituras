@@ -18,6 +18,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Instrumento</th>
+                    <th>Views</th>
                 </tr>
             </thead>
     
@@ -26,6 +27,7 @@
                 <tr onclick="location.href='/admin/musica/{{id}}'">
                     <td>{{nome}}</td>
                     <td>{{instrumento.nome}}</td>
+                    <td>{{views}}</td>
                 </tr>
                 {{/each}}
             </tbody>

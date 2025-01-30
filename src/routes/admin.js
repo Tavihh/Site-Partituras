@@ -8,6 +8,7 @@ const multer = require('multer')
 const { autor, musica } = require('../config/multer')
 const path = require('path')
 const fs = require('fs')
+const Iframe = require('../models/Iframe')
 
 // rotas
 router.get('/', (req,res) => {
@@ -22,12 +23,93 @@ router.get('/', (req,res) => {
         res.locals.instrumentos = instrumentos.map(item => item.toJSON())
         res.locals.generos = generos.map(item => item.toJSON())
 
-        res.render('admin/index', {layout:'admin'})
+        res.render('admin/index')
     }).catch((err) => {
         req.flash('error_msg','Não foi possivel buscar no banco de dados')
-        res.render('admin/index', {layout:'admin'})
+        res.render('admin/index')
     })
 })
+
+// Rotas Interpretação
+router.get('/interpretacoes', (req,res) => {
+
+    // Pegando os Iframes
+        Iframe.findAll({
+            where: { status:'pendente' },
+            include: [
+                {
+                    model: Musica,
+                    attributes: ['id', 'nome']
+                },
+                {
+                    model: Instrumento,
+                    attributes: ['id', 'nome']
+                }
+            ]
+    }).then((iframes) => {
+        // Transformando em JSONS
+        res.locals.iframes = iframes.map(item => item.toJSON())
+        // Renderizando
+        res.render('admin/interpretacoes')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar os iframes')
+        res.redirect('/admin')
+    })
+
+})
+
+router.get('/interpretacoes/reject/:uuid', (req,res) => {
+    const uuid = req.params.uuid
+
+    Iframe.update({status:'rejeitado'},{where:{UUID:uuid}}).then(() => {
+        req.flash('success_msg', "Iframe Atualizado para REJEITADO")
+        res.redirect('/admin/interpretacoes')
+    }).catch((err) => {
+        req.flash('error_msg','Erro ao tentar atualizar Iframe')
+        res.redirect('/admin/interpretacoes')
+    })
+})
+
+router.get('/interpretacoes/accept/:uuid', (req,res) => {
+    const uuid = req.params.uuid
+    
+    Iframe.update({status:'aprovado'},{where:{UUID:uuid}}).then(() => {
+        req.flash('success_msg', "Iframe Atualizado para ACEITO")
+        res.redirect('/admin/interpretacoes')
+    }).catch((err) => {
+        req.flash('error_msg','Erro ao tentar atualizar Iframe')
+        res.redirect('/admin/interpretacoes')
+    })
+})
+
+router.get('/view/:uuid', (req,res) => {
+    const uuid = req.params.uuid
+
+    Iframe.findOne({
+        where:{UUID:uuid},
+        include:[
+            {
+                model:Musica,
+                attributes:['id','nome','pathPDF','pathMXL','pathMP3']
+            },
+            {
+                model:Instrumento,
+                attributes:['id','nome']
+            },
+            {
+                model:Autor,
+                attributes:['id','nome','pathFoto']
+            }
+        ]
+    }).then((iframe) => {
+        res.locals.iframe = iframe.toJSON()
+        res.render('admin/view')
+    }).catch((err) => {
+        req.flash('error_msg', 'Interpretação não encontrada')
+        res.redirect('/admin/interpretacoes')
+    })
+})
+
 
 // Rotas GET Cadastro
 router.get('/musica', (req,res) => {
@@ -41,7 +123,7 @@ router.get('/musica', (req,res) => {
         res.locals.genero = genero.map(item => item.toJSON())
         res.locals.autor = autor.map(item => item.toJSON())
 
-        res.render('admin/add/addMusica', {layout:'admin'})
+        res.render('admin/add/addMusica')
     }).catch((err) => {
         req.flash('error_msg','Não foi possivel buscar as informações necessárias')
         res.redirect('/admin')
@@ -50,15 +132,15 @@ router.get('/musica', (req,res) => {
 })
 
 router.get('/autor', (req,res) => {
-    res.render('admin/add/addAutor', {layout:'admin'})
+    res.render('admin/add/addAutor')
 })
 
 router.get('/genero', (req,res) => {
-    res.render('admin/add/addGenero', {layout:'admin'})
+    res.render('admin/add/addGenero')
 })
 
 router.get('/instrumento', (req,res) => {
-    res.render('admin/add/addInstrumento', {layout:'admin'})
+    res.render('admin/add/addInstrumento')
 })
 
 // Rotas GET Editar
@@ -95,7 +177,7 @@ router.get('/musica/:id', (req,res) => {
         })
 
         // renderizando a tela
-        res.render('admin/edit/editMusica', {layout:'admin'})
+        res.render('admin/edit/editMusica')
 
     // tratando erros
     }).catch((err) => {
@@ -111,7 +193,7 @@ router.get('/autor/:id', (req,res) => {
     Autor.findOne({where:{id:req.params.id}}).then((autor) => {
         if (autor) {
             res.locals.autor =  autor.toJSON()
-            res.render('admin/edit/editAutor', {layout:'admin'})
+            res.render('admin/edit/editAutor')
         } else {
             req.flash('error_msg','Esse Autor não existe')
             res.redirect('/admin')
@@ -125,7 +207,7 @@ router.get('/genero/:id', (req,res) => {
     Genero.findOne({where:{id:req.params.id}}).then((genero) => {
         if (genero) {
             res.locals.genero =  genero.toJSON()
-            res.render('admin/edit/editGenero', {layout:'admin'})
+            res.render('admin/edit/editGenero')
         } else {
             req.flash('error_msg','Esse Gênero não existe')
             res.redirect('/admin')
@@ -138,12 +220,71 @@ router.get('/instrumento/:id', (req,res) => {
     Instrumento.findOne({where:{id:req.params.id}}).then((instrumento) => {
         if (instrumento) {
             res.locals.instrumento =  instrumento.toJSON()
-            res.render('admin/edit/editInstrumento', {layout:'admin'})
+            res.render('admin/edit/editInstrumento')
         } else {
             req.flash('error_msg','Esse Instrumento não existe')
             res.redirect('/admin')
         }
     })
+})
+
+// Rotas GET Deletar
+router.get('/confirmDelMusica/:id', (req,res) => {
+    const id = req.params.id
+
+    // Busca a Música
+    Musica.findByPk(id).then((musica) => {
+        res.locals.musica = musica.toJSON()
+        res.render('admin/del/delMusica')
+    // Trata o Erro
+    }).catch((err) => {
+        req.flash('error_msg','Música não encontrada')
+        res.redirect('/admin')
+    })
+})
+
+router.get('/confirmDelAutor/:id', (req,res) => {
+    const id = req.params.id
+
+    // Busca o Autor
+    Autor.findByPk(id).then((autor) => {
+        res.locals.autor = autor.toJSON()
+        res.render('admin/del/delAutor')
+    // Trata o Erro
+    }).catch((err) => {
+        req.flash('error_msg','Autor não encontrado')
+        res.redirect('/admin')
+    })
+    
+})
+
+router.get('/confirmDelGenero/:id', (req,res) => {
+    const id = req.params.id
+
+    // Busca o Gênero
+    Genero.findByPk(id).then((genero) => {
+        res.locals.genero = genero.toJSON()
+        res.render('admin/del/delGenero')
+    // Trata o Erro
+    }).catch((err) => {
+        req.flash('error_msg','Gênero não encontrado')
+        res.redirect('/admin')
+    })
+    
+})
+
+router.get('/confirmDelInstrumento/:id', (req,res) => {
+    const id = req.params.id
+    // Busca o Instrumento
+    Instrumento.findByPk(id).then((instrumento) => {
+        res.locals.instrumento = instrumento.toJSON()
+        res.render('admin/del/delInstrumento')
+    // Trata o Erro
+    }).catch((err) => {
+        req.flash('error_msg','Instrumento não encontrado')
+        res.redirect('/admin')
+    })
+
 })
 
 // Rotas POST Cadastro
@@ -609,9 +750,9 @@ router.post('/editInstrumento', (req,res) => {
     }
 })
 
-// Rotas Get Deletar
-router.get('/delMusica/:id', (req,res) => {
-    const id = req.params.id
+// Rotas POST Deletar
+router.post('/delMusica', (req,res) => {
+    const id = req.body.id
     Musica.findOne({where:{id:id}}).then((musica) => {
         // salva as músicas para caso falhe em deletar do banco
         musica_json = musica.toJSON()
@@ -646,8 +787,8 @@ router.get('/delMusica/:id', (req,res) => {
     })
 })
 
-router.get('/delAutor/:id', (req,res) => {
-    const id = req.params.id
+router.post('/delAutor', (req,res) => {
+    const id = req.body.id
     Autor.findOne({where:{id:id}}).then((autor) => {
         // salva as músicas para caso falhe em deletar do banco
         const autor_json = autor.toJSON()
@@ -673,10 +814,11 @@ router.get('/delAutor/:id', (req,res) => {
         req.flash('error_msg','informações necessárias não encontradas ou Autor não existe')
         res.redirect('/admin')
     })
+
 })
 
-router.get('/delGenero/:id', (req,res) => {
-    const id = req.params.id
+router.post('/delGenero', (req,res) => {
+    const id = req.body.id
     Genero.destroy({where:{id:id}}).then(() => {
         req.flash('success_msg', 'Gênero deletado com sucesso')
         res.redirect('/admin')
@@ -687,8 +829,8 @@ router.get('/delGenero/:id', (req,res) => {
     })
 })
 
-router.get('/delInstrumento/:id', (req,res) => {
-    const id = req.params.id
+router.post('/delInstrumento', (req,res) => {
+    const id = req.body.id
     Instrumento.destroy({where:{id:id}}).then(() => {
         req.flash('success_msg', 'Instrumento deletado com sucesso')
         res.redirect('/admin')

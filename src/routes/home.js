@@ -5,6 +5,8 @@ const Instrumento = require('../models/Instrumento');
 const Autor = require('../models/Autor');
 const Genero = require('../models/Genero');
 const Op = require('sequelize').Op
+const { viewsMusica, viewsIframe } = require('../helpers/views'); 
+const Iframe = require('../models/Iframe');
 
 // rotas
 router.get('/', async (req,res) => {
@@ -37,9 +39,18 @@ router.get('/partitura/:id', async (req,res) => {
         ]
     }).then(async (musica) => {
         let musicas = await Musica.findAll({where:{instrumento_id:musica.instrumento_id}})
+        let iframe = await Iframe.findOne({where:{musica_id:id, status:'aprovado'}})
 
         res.locals.musica = musica.toJSON()
         res.locals.musicas = musicas.map(item => item.toJSON())
+        res.locals.iframe = iframe.toJSON()
+
+        
+        // Incrementa as Views
+        await viewsIframe(iframe.UUID)
+        await viewsMusica(id)
+
+        // Renderiza
         res.render('home/partitura')
     }).catch((err) => {
         req.flash('error_msg','Música não existe')

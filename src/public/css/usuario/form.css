@@ -43,6 +43,11 @@ main form {
     background-color: white;
 }
 
+main form p {
+    color: black;
+    width: 100%;
+}
+
 .form-body h2 {
     color:white;
     text-align:center;

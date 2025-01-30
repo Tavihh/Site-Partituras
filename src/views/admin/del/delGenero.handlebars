@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Gênero</h2>
+        <form action="/admin/delGenero" method="post">
+            <input type="hidden" name="id" value="{{genero.id}}">
+            <p>Certeza que deseja <strong>deletar</strong> o gênero {{genero.nome}}?</p>
+            <input type="submit" value="Deletar" class="form-submit danger">
+            <input type="button" value="Voltar" class="form-submit" onclick="history.go(-1)">
+        </form>
+    </div>
+</main>

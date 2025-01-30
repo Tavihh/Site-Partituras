@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/css/admin/interpretacoes.css">
+
+<main>
+    {{>_message}}
+    <table>
+        <thead>
+            <tr>
+                <th>Musica</th>
+                <th class="mobile">instrumento</th>
+                <th>Status</th>
+                <th>Views</th>
+                <th colspan="2">Func</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each iframes}}
+            <tr>
+                <td onclick="location.href = '/admin/view/{{UUID}}'">{{musica.nome}}</td>
+                <td class="mobile" onclick="location.href = '/admin/view/{{UUID}}'">{{instrumento.nome}}</td>
+                <td onclick="location.href = '/admin/view/{{UUID}}'">{{status}}</td>
+                <td onclick="location.href = '/admin/view/{{UUID}}'">{{views}}</td>
+                <td class="table-botoes">
+                    <button onclick="location.href = '/admin/interpretacoes/accept/{{UUID}}'">Aceitar</button>
+                    <button onclick="location.href = '/admin/interpretacoes/reject/{{UUID}}'">Rejeitar</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</main>

@@ -41,7 +41,7 @@ section button {
     cursor: pointer;
     width: 25px;
     height: 25px;
-    background: #333 url('/imagens/search.png') no-repeat center center;
+    background: #333 url('/imagens/icons/search.png') no-repeat center center;
     background-size: 15px;
     opacity: 0.7;
     border-radius: 5px;

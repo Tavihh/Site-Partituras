@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+
+<main>
+    {{>_message}}
+    <div class="form-body">
+        <h2>Instrumento</h2>
+        <form action="/admin/delInstrumento" method="post">
+            <input type="hidden" name="id" value="{{instrumento.id}}">
+            <p>Certeza que deseja <strong>deletar</strong> o Instrumento {{instrumento.nome}}?</p>
+            <input type="submit" value="Deletar" class="form-submit danger">
+            <input type="button" value="Voltar" class="form-submit" onclick="history.go(-1)">
+        </form>
+    </div>
+</main>

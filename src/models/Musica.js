@@ -27,6 +27,10 @@ const Musica = sq.define('musicas', {
     pathMP3: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    views: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0 // inicializa com 0 visualizações
     }
 });
 

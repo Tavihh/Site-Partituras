@@ -2,24 +2,86 @@
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
+const Musica = require('../models/Musica')
+const Instrumento = require('../models/Instrumento')
 const passport = require('../config/auth')
+const Iframe = require('../models/Iframe')
 const { logado , naoLogado} = require('../helpers/logado')
 
 // rotas
+
+// Rotas GET
 router.get('/login', naoLogado, (req,res) => {
     res.render('usuario/login')
 })
 
+router.get('/registrar', naoLogado, (req,res) => {
+    res.render('usuario/registrar')
+})
+
+router.get('/logout', logado, (req,res)=>{
+    req.logout(()=>{
+        req.flash('success_msg','Deslogado com sucesso')
+        res.redirect('/')
+    })
+})
+
+router.get('/interpretacoes', logado, (req,res) => {
+
+    Iframe.findAll({
+        where: { usuario_id: req.user.id },
+        include: [
+            {
+                model: Musica,
+                attributes: ['id', 'nome']
+            },
+            {
+                model: Instrumento,
+                attributes: ['id', 'nome']
+            }
+        ]
+    }).then((iframes) => {
+        res.locals.iframes = iframes.map(item => item.toJSON())
+        res.render('usuario/interpretacoes')
+    })
+})
+
+router.get('/enviarIframe/:musica_id/:instrumento_id/:autor_id', logado, (req,res) => {
+    const musica_id = req.params.musica_id
+    const instrumento_id = req.params.instrumento_id
+    const autor_id = req.params.autor_id
+
+    res.locals.musica_id = musica_id
+    res.locals.instrumento_id = instrumento_id
+    res.locals.autor_id = autor_id
+    res.render('usuario/enviarIframe')
+})
+
+router.get('/conta', logado, (req,res) => {
+    res.render('usuario/conta')
+})
+
+router.get('/confirmDelIframe/:uuid', logado, (req,res) => {
+    const uuid = req.params.uuid
+    // Busca o iframe
+    Iframe.findByPk(uuid).then((iframe) => {
+        res.locals.iframe = iframe.toJSON()
+        res.render('usuario/delIframe')
+    // Trata o Erro
+    }).catch((err) => {
+        req.flash('error_msg','Interpretação não encontrada')
+        res.redirect('/usuario/interpretacoes')
+    })
+
+})
+
+// Rotas POST
 router.post('/login', naoLogado, (req,res,next)=>{
     passport.authenticate('local', {
         successRedirect:'/',
         failureRedirect:'/usuario/login',
         failureFlash:true,
     })(req,res,next)
-})
-
-router.get('/registrar', naoLogado, (req,res) => {
-    res.render('usuario/registrar')
 })
 
 router.post('/registrar', naoLogado, (req,res) => {
@@ -107,17 +169,6 @@ router.post('/registrar', naoLogado, (req,res) => {
             res.redirect('/usuario/registrar')
         })
     }
-})
-
-router.get('/logout', naoLogado, (req,res)=>{
-    req.logout(()=>{
-        req.flash('success_msg','Deslogado com sucesso')
-        res.redirect('/')
-    })
-})
-
-router.get('/conta', logado, (req,res) => {
-    res.render('usuario/conta')
 })
 
 router.post('/atualizarDados', logado, (req,res) => {
@@ -277,6 +328,46 @@ router.post('/atualizarSenha', logado, (req,res) => {
         })
     }
 })
+
+router.post('/enviarIframe', logado, (req,res) => {
+
+    // Pegando os dados que vieram pelos parametros
+    const musica_id = req.body.musica_id
+    const instrumento_id = req.body.instrumento_id
+    const usuario_id = req.body.usuario_id
+    const autor_id = req.body.autor_id
+    const iframe = req.body.iframe
+
+    Iframe.create({
+        iframeCode: iframe,
+        usuario_id: usuario_id,
+        musica_id: musica_id,
+        instrumento_id: instrumento_id,
+        autor_id: autor_id
+    }).then(() => {
+        req.flash('success_msg','Sua interpretação foi enviada com sucesso')
+        res.redirect('/usuario/interpretacoes')
+    }).catch((err) => {
+        req.flash('error_msg', 'Houve um erro interno ao enviar a sua interpretação')
+        res.redirect('/usuario/interpretacoes')
+    })
+
+})
+
+router.post('/delIframe', logado, (req,res) => {
+    const uuid = req.body.uuid
+    Iframe.destroy({where:{UUID:uuid}}).then(() => {
+        req.flash('success_msg', 'Interpretação deletada com sucesso')
+        res.redirect('/usuario/interpretacoes')
+    }).catch((err) => {
+        console.log(err)
+        req.flash('error_msg','informações necessárias não encontradas ou Interpretação não existe')
+        res.redirect('/usuario/interpretacoes')
+    })
+})
+
+
+
 
 // exportação
 module.exports = router

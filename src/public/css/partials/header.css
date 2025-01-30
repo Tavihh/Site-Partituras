@@ -45,7 +45,7 @@ header form input[type='submit'] {
     cursor: pointer;
     width: 35px;
     height: 35px;
-    background: #333 url('../../imagens/search.png') no-repeat center center;
+    background: #333 url('../../imagens/icons/search.png') no-repeat center center;
     background-size: 23px;
     border-radius: inherit;
     opacity: 0.7;

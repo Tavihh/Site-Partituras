@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/css/usuario/form.css">
+<link rel="stylesheet" href="/css/usuario/enviarIframe.css">
+
+<main>
+    <section>
+        <h1>Como Funciona?</h1>
+        <p>Você só precisa seguir os passos abaixo</p>
+        <ol>
+            <li>Se Gravar tocando</li>
+            <li>Adicionar a Partitura no Video</li>
+            <li>Postar no Instagram</li>
+        </ol>
+        <p>Va nas configurações da postagem</p>
+        <img src="/imagens/iframe/passo-1.png" alt="">
+        <p>Selecione Incorporar</p>
+        <img src="/imagens/iframe/passo-2.png" alt="">
+        <p>Copie o Código</p>
+        <img src="/imagens/iframe/passo-3.png" alt="">
+        <p>Cole o código aqui embaixo e envie</p>
+    </section>
+
+
+    <div class="form-body">
+        <h2>Iframe</h2>
+        <form action="/usuario/enviarIframe" method="post">
+            <input type="hidden" name="usuario_id" value="{{user.id}}">
+            <input type="hidden" name="musica_id" value="{{musica_id}}">
+            <input type="hidden" name="instrumento_id" value="{{instrumento_id}}">
+            <input type="hidden" name="autor_id" value="{{autor_id}}">
+            <input type="text" name="iframe" id="iframe" class="form-input" placeholder="Seu iframe" required>
+            <input type="submit" value="Enviar" class="form-submit">
+            <input type="button" value="Voltar" class="form-submit" onclick="history.go(-1)">
+        </form>
+    </div>
+</main>

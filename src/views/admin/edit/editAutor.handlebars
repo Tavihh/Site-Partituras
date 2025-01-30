@@ -11,7 +11,7 @@
             <input type="file" name="file" id="file-JPG" class="form-file-hidden">
             <input type="text" name="nome" id="nome" class="form-input" placeholder="Autor" value="{{autor.nome}}">
             <input type="submit" value="Atualizar" class="form-submit">
-            <input type="button" value="Deletar" class="form-submit danger" onclick="location.href = '/admin/delAutor/{{autor.id}}'">
+            <input type="button" value="Deletar" class="form-submit danger" onclick="location.href = '/admin/confirmDelAutor/{{autor.id}}'">
             <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">
         </form>
     </div>
