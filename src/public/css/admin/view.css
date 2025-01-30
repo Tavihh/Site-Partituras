@@ -1,0 +1,252 @@
+/* Estilo do main */
+main {
+    background-color: black;
+    padding: 20px;
+    color: white;
+}
+main h4 {
+    max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+    text-indent: 20px;
+    margin: auto;
+}
+
+main .apresentacao {
+    display: flex;
+    max-width: 500px;
+    min-height: 300px;
+    /* width: max-content; */
+    margin: auto;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+main .apresentacao img {
+    height: 100%;
+}
+
+main .apresentacao button {
+    cursor: pointer;
+    padding: 5px;
+    border: 3px solid #333;
+    background-color: lightgrey;
+    font-size: 1.1em;
+    color: #333;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+main .apresentacao button:hover {
+    background-color: #333;
+    color: white;
+}
+
+/** Estilo do menu**/
+.menu-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 15px auto;
+    justify-content: space-between;
+    gap: 20px;
+
+}
+
+.menu-conteudo {
+    display: flex;
+    gap: 15px;
+}
+
+.foto-perfil {
+    display: inline;
+    border-radius: 50%;
+    height: 55px;
+    width: 55px;
+    overflow: hidden;
+}
+
+.foto-perfil img {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.menu-dados h1 {
+    color: white;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.menu-dados p {
+    color: white;
+    font-weight: 400;
+    font-size: 0.9em;
+}
+
+.menu-dados a {
+    color: white;
+}
+
+.menu-dados a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #1183d6;
+    transition: text-decoration 1s;
+}
+
+.menu-controls {
+    display: flex;
+    gap: 10px;
+    min-width: max-content;
+}
+
+.menu-controls a {
+    color: #EBD065;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.menu-controls a:hover {
+    cursor: pointer;
+    background-color: #333;
+    color: #EBD065;
+}
+
+.menu-botoes-adm button {
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 3px solid #333;
+    color: #333;
+    /* background-color: transparent; */
+    padding: 0px 5px;
+    transition: 1;
+}
+
+.menu-botoes-adm button:hover {
+    background-color: #333;
+    color: white;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Seção das partituras */
+h3 {
+    color: white;
+    text-indent: 40px;
+}
+
+/* Botões de rolagem lateral */
+.botoes {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px -20px;
+    height: 240px;
+    width: 100vw;
+}
+
+.btn-right, .btn-left {
+    all:unset;
+    pointer-events: all;
+    width: 50px;
+    height: 90px;
+    transition: translate 0.5s;
+}
+
+.btn-left {
+    background: url(/imagens/icons/arrow-left.png) center center no-repeat;
+    background-size: contain;
+}
+
+.btn-right {
+    background: url(/imagens/icons/arrow-right.png) center center no-repeat ;
+    background-size: contain;
+}
+
+.btn-right:hover,.btn-left:hover {
+    cursor: pointer;
+    translate: 0px -10px;
+}
+
+/* Seção das músicas */
+.musicas {
+    min-height: 200px;
+    display: flex;
+    overflow: auto;
+    gap: 8px;
+    z-index: -1;
+    padding: 10px 0px;
+    margin: 0px 20px;
+}
+
+/* Animações */
+.carroselLeft {
+    animation: carroselLeft 2s ease-in-out forwards;
+}
+
+/* Estilo dos cards */
+.card {
+    width: 140px;
+    color: white;
+    background-color: #111;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    scroll-behavior: smooth;
+    transition: transform 1s, text-decoration 1s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    text-decoration: underline;
+    text-decoration-color: #1183d6;
+    background-color: #1a1818;
+}
+
+.card img {
+    width: 100%;
+    border-radius: inherit;
+    background-size: contain;
+}
+
+/* Versão mobile */
+@media screen and ( max-width:600px ) {
+    h3 {
+    text-indent: 0px;
+    }
+    .botoes {
+        display: none;
+    }
+    .musicas {
+        margin: 0px;
+    }
+}
+
+
+/* Animações */
+@keyframes carroselLeft {
+    from {
+        transform: translateX(-100vw);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}
+

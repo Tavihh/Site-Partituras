@@ -9,6 +9,8 @@ const { autor, musica } = require('../config/multer')
 const path = require('path')
 const fs = require('fs')
 const Iframe = require('../models/Iframe')
+const { Op } = require('sequelize')
+const User = require('../models/User')
 
 // rotas
 router.get('/', (req,res) => {
@@ -16,12 +18,63 @@ router.get('/', (req,res) => {
         Musica.findAll({include:[{model:Instrumento, attributes:['id','nome']}]}),
         Autor.findAll(),
         Instrumento.findAll(),
-        Genero.findAll()
-    ]).then(([musicas, autores ,instrumentos,generos]) =>{
+        Genero.findAll(),
+        Iframe.findAll({include:[
+            {model:Instrumento, attributes:['id','nome']},
+            {model:Musica,attributes:['id','nome']},
+            {model:User,attributes:['id','nome']}
+        ],where:{
+            [Op.or]: [
+                { status:{[Op.like]: `aprovado`}},
+                { status:{[Op.like]: `rejeitado`}}
+
+            ]
+        }}),
+    ]).then(([musicas, autores ,instrumentos,generos,iframe]) =>{
         res.locals.musicas = musicas.map(item => item.toJSON())
         res.locals.autores = autores.map(item => item.toJSON())
         res.locals.instrumentos = instrumentos.map(item => item.toJSON())
         res.locals.generos = generos.map(item => item.toJSON())
+        res.locals.iframes = iframe.map(item => item.toJSON())
+
+        res.render('admin/index')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar no banco de dados')
+        res.render('admin/index')
+    })
+})
+
+// Pesquisa
+router.get('/psq', (req,res) => {
+    const psq = req.query.psq
+
+    Promise.all([
+        Musica.findAll({include:[{model:Instrumento, attributes:['id','nome']}],where:{nome:{[Op.like]:`%${psq}%`}}}),
+        Autor.findAll({where:{nome:{[Op.like]:`%${psq}%`}}}),
+        Instrumento.findAll({where:{[Op.or]:[
+            {nome:{[Op.like]:`%${psq}%`}},
+            {nomeExibicao:{[Op.like]:`%${psq}%`}}
+        ]}}),
+        Genero.findAll({where:{nome:{[Op.like]:`%${psq}%`}}}),
+        Iframe.findAll({include:[
+            {model:Instrumento, attributes:['id','nome']},
+            {model:Musica,attributes:['id','nome']},
+            {model:User,attributes:['id','nome']}
+        ],where:{
+            [Op.or]: [
+                { status:{[Op.like]: `aprovado`}},
+                { status:{[Op.like]: `rejeitado`}},
+                {'$usuario.nome$':{[Op.like]: `%${psq}%`}},
+                {'$musica.nome$':{[Op.like]: `%${psq}%`}},
+                {'$instrumento.nome$':{[Op.like]: `%${psq}%`}}
+            ]
+        }}),
+    ]).then(([musicas, autores ,instrumentos, generos, iframes]) =>{
+        res.locals.musicas = musicas.map(item => item.toJSON())
+        res.locals.autores = autores.map(item => item.toJSON())
+        res.locals.instrumentos = instrumentos.map(item => item.toJSON())
+        res.locals.generos = generos.map(item => item.toJSON())
+        res.locals.iframes = iframes.map(item => item.toJSON())
 
         res.render('admin/index')
     }).catch((err) => {

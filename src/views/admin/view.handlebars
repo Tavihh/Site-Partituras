@@ -1,10 +1,8 @@
-<link rel="stylesheet" href="/css/home/partitura.css">
+<link rel="stylesheet" href="/css/admin/view.css">
+
 <main>
-    <h4><strong>{{musica.nome}}</strong></h4>
     <div class="apresentacao">
-        <div>
-            {{{iframe.iframeCode}}}
-        </div>
+        {{{iframe.iframeCode}}}
     </div>
 
     <div class="menu-body">
@@ -19,9 +17,14 @@
             </div>
             <div class="menu-dados">
                 <h1><a href="/autor/{{iframe.autore.id}}">{{iframe.autore.nome}}</a></h1>
+                <h1>{{iframe.musica.nome}}</h1>
                 <p>{{iframe.instrumento.nome}}</p>
             </div>
-            <button onclick="history.go(-1)">VOLTAR</button>
+            <div class="menu-botoes-adm">
+                <button onclick="history.go(-1)">VOLTAR</button>
+                <button onclick="location.href = '/admin/interpretacoes/accept/{{iframe.UUID}}'">Aceitar</button>
+                <button onclick="location.href = '/admin/interpretacoes/reject/{{iframe.UUID}}'">Rejeitar</button>
+            </div>
         </div>
         <div class="menu-controls">
             {{#if iframe.musica.pathPDF}}

@@ -8,7 +8,7 @@
             <h2>Total Partituras</h2>
         </div>
     
-        <form action="#" method="post">
+        <form action="/admin/psq" method="get">
             <input type="search" name="psq" placeholder="Pesquise uma Música">
             <button type="submit"></button>
         </form>
@@ -37,8 +37,8 @@
     <section>
         <h2>Autores</h2>
     
-        <form action="#" method="post">
-            <input type="search" name="psq1" placeholder="Pesquise um Autor">
+        <form action="/admin/psq" method="get">
+            <input type="search" name="psq" placeholder="Pesquise um Autor">
             <button type="submit"></button>
         </form>
     
@@ -64,8 +64,8 @@
     <section>
         <h2>Generos</h2>
     
-        <form action="#" method="post">
-            <input type="search" name="psq2" placeholder="Pesquise um Genero">
+        <form action="/admin/psq" method="get">
+            <input type="search" name="psq" placeholder="Pesquise um Genero">
             <button type="submit"></button>
         </form>
     
@@ -91,8 +91,8 @@
     <section>
         <h2>Instrumentos</h2>
     
-        <form action="#" method="post">
-            <input type="search" name="psq2" placeholder="Pesquise um Instrumento">
+        <form action="/admin/psq" method="get">
+            <input type="search" name="psq" placeholder="Pesquise um Instrumento">
             <button type="submit"></button>
         </form>
     
@@ -109,6 +109,37 @@
                 <tr onclick="location.href='/admin/instrumento/{{id}}'">
                     <td>{{nome}}</td>
                     <td>{{nomeExibicao}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Iframes</h2>
+    
+        <form action="/admin/psq" method="get">
+            <input type="search" name="psq" placeholder="Pesquise um Iframe">
+            <button type="submit"></button>
+        </form>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>Usúario</th>
+                    <th>Música</th>
+                    <th>Instrumento</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+                {{#each iframes}}
+                <tr onclick="location.href='/admin/view/{{UUID}}'">
+                    <td>{{usuario.nome}}</td>
+                    <td>{{musica.nome}}</td>
+                    <td>{{instrumento.nome}}</td>
+                    <td>{{status}}</td>
                 </tr>
                 {{/each}}
             </tbody>
