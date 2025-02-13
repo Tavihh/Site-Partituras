@@ -58,7 +58,7 @@ Iframe.belongsTo(Autor, {
 });
 
 // sincronizando tabela
-Iframe.sync({alter:true}).then(() => {
+Iframe.sync().then(() => {
     console.log("Tabela 'Iframes' OK!")
 }).catch((err) => {
     console.log("Tabela 'Iframes' Não OK!")
