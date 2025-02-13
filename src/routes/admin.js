@@ -738,9 +738,6 @@ router.post('/editAutor', (req,res) => {
             if(!nome) {
                 erros.push({texto:'Nome inválido'})
             }
-            if(!req.file) {
-                erros.push({texto:'Arquivo inválido'})
-            }
             if(nome < 2) {
                 erros.push({texto:'Nome muito curto'})
             }
@@ -760,7 +757,7 @@ router.post('/editAutor', (req,res) => {
                 // salvando no banco de dados
                 Autor.update({
                     nome:nome,
-                    pathFoto:req.file.filename
+                    pathFoto: req.file ? req.file.filename : pathFoto
                 },{where:{id:id}}).then(() =>{
                     req.flash('success_msg','Autor Atualizado com sucesso')
                     res.redirect(`/admin/autor/${id}`)
