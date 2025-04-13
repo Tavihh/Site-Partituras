@@ -1,31 +1,29 @@
 <link rel="stylesheet" href="/css/usuario/interpretacoes.css">
 
-<main>
-    {{>_message}}
-    <table>
-        <thead>
-            <tr>
-                <th>Musica</th>
-                <th class="mobile">instrumento</th>
-                <th>Status</th>
-                <th>Views</th>
-                <th colspan="2">Func</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each iframes}}
-            <tr>
-                <td>{{musica.nome}}</td>
-                <td class="mobile">{{instrumento.nome}}</td>
-                <td>{{status}}</td>
-                <td>{{views}}</td>
-                <td class="table-botoes">
-                    <button onclick="location.href = '/partitura/{{musica.id}}'">Acessar</button>
-                    <button onclick="location.href = '/usuario/confirmDelIframe/{{UUID}}'">Excluir</button>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
 
-</main>
+{{>_message}}
+<table>
+    <thead>
+        <tr>
+            <th>Musica</th>
+            <th class="mobile">instrumento</th>
+            <th>Status</th>
+            <th>Views</th>
+            <th colspan="2">Func</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each iframes}}
+        <tr>
+            <td>{{musica.nome}}</td>
+            <td class="mobile">{{instrumento.nome}}</td>
+            <td>{{status}}</td>
+            <td>{{views}}</td>
+            <td class="table-botoes">
+                <button onclick="location.href = '/partitura/{{musica.id}}'">Acessar</button>
+                <button onclick="location.href = '/usuario/confirmDelIframe/{{UUID}}'">Excluir</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

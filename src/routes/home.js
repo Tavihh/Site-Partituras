@@ -25,7 +25,7 @@ router.get('/', async (req,res) => {
     }));
     // renderiza
     res.locals.instrumentos = instrumentos
-    res.render('home/index')
+    res.render('home/home')
 })
 
 router.get('/partitura/:id', async (req,res) => {

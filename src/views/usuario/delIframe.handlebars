@@ -1,14 +1,13 @@
 <link rel="stylesheet" href="/css/usuario/form.css">
 
-<main>
-    {{>_message}}
-    <div class="form-body">
-        <h2>Iframe</h2>
-        <form action="/usuario/delIframe" method="post">
-            <input type="hidden" name="uuid" value="{{iframe.UUID}}">
-            <p>Certeza que deseja <strong>deletar</strong> essa Interpretação?</p>
-            <input type="submit" value="Deletar" class="form-submit danger">
-            <input type="button" value="Voltar" class="form-submit" onclick="history.go(-1)">
-        </form>
-    </div>
-</main>
+{{>_message}}
+<div class="form-body">
+    <h2>Iframe</h2>
+    <form action="/usuario/delIframe" method="post">
+        <input type="hidden" name="uuid" value="{{iframe.UUID}}">
+        <p>Certeza que deseja <strong>deletar</strong> essa Interpretação?</p>
+        <input type="submit" value="Deletar" class="form-submit danger">
+        <input type="button" value="Voltar" class="form-submit" onclick="history.go(-1)">
+    </form>
+</div>
+

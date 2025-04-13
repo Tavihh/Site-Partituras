@@ -1,9 +1,11 @@
-/* Estilo do main */
-main {
+/* Estilo do section */
+section{
     flex: auto;
     padding: 30px 10px;
     background-color: antiquewhite;
+
 }
+
 /* Formulario */
 .form-body {
     max-width: 600px;
@@ -32,18 +34,19 @@ main {
     text-decoration-color: #1183d6;
 }
 
-main form {
+.form-body form {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    max-width: inherit;
     width: 100%;
+    gap: 5px;
     height: max-content;
     padding: 10px;
     border-radius: inherit;
     background-color: white;
 }
 
-main form p {
+.form-body form p {
     color: black;
     width: 100%;
 }

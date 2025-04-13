@@ -1,0 +1,50 @@
+.musicas-carrosel {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.musicas-card {
+    max-width: 150px;
+    height: 210px;
+    padding: 3px;
+    background-color: black;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+/* Estilo da partitura */
+.musicas-card {
+    background-color: #101010;
+    width: max-content;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 0px 1px 2px black;
+    transition: transform 1s;
+}
+
+.musicas-card:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+}
+
+.musicas-card img {
+    width: 130px;
+    height: 180px;
+    border-radius: inherit;
+    padding: 1px;
+}
+
+.musicas-card p {
+    max-width: 130px;
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 500;
+    color: white;
+}

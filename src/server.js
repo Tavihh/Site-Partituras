@@ -14,7 +14,7 @@ app.use('/admin', eAdmin, admin)
 // app.use('/admin', admin)
 
 // Outros
-const PORTA = 1010
+const PORTA = 2020
 app.listen(PORTA, () => {
     console.log(`Servidor rodando em: http://localhost:${PORTA}`)
 })

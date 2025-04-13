@@ -1,66 +1,12 @@
 <link rel="stylesheet" href="/css/home/partitura.css">
-<main>
-    <div class="apresentacao">
-        {{#if iframe}}
-            {{{iframe.iframeCode}}}
-        {{else}}
-        <div>
-            <p style="padding: 10px;">Se Grave tocando, poste no instagram e nos envie, A melhor interpretação aparece aqui!</p>
-            <button onclick="location.href = '/usuario/enviarIframe/{{musica.id}}/{{musica.instrumento.id}}/{{musica.autore.id}}'">Enviar</button>
-        </div>
-        {{/if}}
-    </div>
 
-    <div class="menu-body">
-        <div class="menu-conteudo">
-            <div>
-                <button class="foto-perfil" onclick="javascript:location.href ='/autor/{{musica.autore.id}}'">
-                    <picture>
-                        <img src="/server-files/autores/{{musica.autore.pathFoto}}" alt="Foto do autor"
-                            onerror="this.onerror=null; this.src='/imagens/account.png';">
-                    </picture>
-                </button>
-            </div>
-            <div class="menu-dados">
-                <h1><a href="/autor/{{musica.autore.id}}">{{musica.autore.nome}}</a></h1>
-                <h1>{{musica.nome}}</h1>
-                <p>{{musica.instrumento.nome}} - {{musica.genero.nome}}</p>
-            </div>
-        </div>
-        <div class="menu-controls">
-            {{#if musica.pathPDF}}
-            <a href="/server-files/musicas/{{musica.pathPDF}}" download="{{musica.nome}} - {{musica.instrumento.nome}}.pdf" target="_blank">Part - PDF</a>
-            {{/if}}
-            {{#if musica.pathMXL}}
-            <a href="/server-files/musicas/{{musica.pathMXL}}" download="{{musica.nome}} - {{musica.instrumento.nome}}.mxl" target="_blank">Part - MXL</a>
-            {{/if}}
-            {{#if musica.pathMP3}}
-            <a href="/server-files/musicas/{{musica.pathMP3}}" download="{{musica.nome}} - {{musica.instrumento.nome}}.mp3" target="_blank">Playback</a>
-            {{/if}}
-        </div>
-    </div>
-    
+<h2>Mamãe eu quero</h2>
+<small>Marchinha de Carnaval</small>
+<hr>
 
-    {{#if musicas}}
-    <h2>Semelhantes</h2>
 
-    <h3>{{musica.instrumento.nome}}</h3>
 
-    <div class="botoes">
-        <div class="left"><button class="btn-left" onclick="javascript:document.querySelector('.musicas').scrollBy({left:-370, behavior:'smooth'})"></button></div>
-        <div class="right"><button class="btn-right" onclick="javascript:document.querySelector('.musicas').scrollBy({left:370, behavior:'smooth'})"></button></div>
-    </div>
-    <div class="musicas carroselLeft">
-        {{#each musicas}}
-        <a href="/partitura/{{id}}">
-            <div class="card">
-                <img src="/server-files/musicas/{{pathPNG}}" alt="Partitura" loading="lazy">
-                <p>{{nome}}</p>
-            </div>
-        </a>
-        {{/each}}
-    </div>
-    {{/if}}
+<!-- <input type="file" id="fileInput" accept=".musicxml, .xml"> -->
+<div id="osmd-container"></div>
 
-    
-</main>
+<script src="https://unpkg.com/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>

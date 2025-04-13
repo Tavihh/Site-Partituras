@@ -1,17 +1,17 @@
 <link rel="stylesheet" href="/css/usuario/form.css">
 
-<main>
-    {{>_message}}
-    <div class="form-body">
-        <h2>Cadastrar</h2>
-        <form action="/usuario/registrar" method="post">
-            <input class="form-input" type="text" name="nome" id="nome" placeholder="Nome">
-            <input class="form-input" type="text" name="sobrenome" id="sobrenome" placeholder="Sobrenome">
-            <input class="form-input" type="text" name="email" id="email" placeholder="E-mail">
-            <input class="form-input" type="password" name="senha" id="senha" placeholder="Senha">
-            <input class="form-input" type="password" name="senha2" id="senha2" placeholder="Confirme a Senha">
-            <input class="form-submit" type="submit" value="Cadastrar">
-        </form>
-        <p>Ainda não tem conta? <a href="/usuario/login">Logar</a></p>
-    </div>
-</main>
+
+{{>_message}}
+<div class="form-body">
+    <h2>Cadastrar</h2>
+    <form action="/usuario/registrar" method="post">
+        <input class="form-input" type="text" name="nome" id="nome" placeholder="Nome">
+        <input class="form-input" type="text" name="sobrenome" id="sobrenome" placeholder="Sobrenome">
+        <input class="form-input" type="text" name="email" id="email" placeholder="E-mail">
+        <input class="form-input" type="password" name="senha" id="senha" placeholder="Senha">
+        <input class="form-input" type="password" name="senha2" id="senha2" placeholder="Confirme a Senha">
+        <input class="form-submit" type="submit" value="Cadastrar">
+    </form>
+    <p>Ainda não tem conta? <a href="/usuario/login">Logar</a></p>
+</div>
+

@@ -1,0 +1,20 @@
+section {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* evita scroll desnecessário */
+}
+
+h2 {
+    font-size: 1.1em;
+}
+
+hr {
+    border: 1px solid blue;
+    width: 30px;
+    margin: 5px 0px;
+}
+
+h3 {
+    font-size: 0.9em;
+    text-indent: 10px;
+}

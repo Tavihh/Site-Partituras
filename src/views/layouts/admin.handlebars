@@ -11,28 +11,28 @@
     <header>
         <h1>DashBoard</h1>
 
-        <button class="button-menu" id="button-menu" onclick="togglebar()">
-            <img src="/imagens/icons/menu-white.png" alt="img">
+        <button class="button-menu" id="button-menu" onclick="toggle()">
+            <img src="/imgs/icons/menu-white.png" alt="img">
         </button>
     </header>
     {{!-- NavSide --}}
-    <nav id="nav-side">  
+    <aside>  
         <div class="card-perfil">
-            <img src="/imagens/icons/account.png" alt="img">
+            <img src="/imgs/icons/account.png" alt="img">
             <p>{{user.nome}} {{user.sobrenome}}</p>
         </div>
         <hr>
         <ul>
-            <li><a href="/admin/"><img src="/imagens/icons/shield-person.png" alt="img">Painel</a></li>
-            <li><a href="/admin/musica"><img src="/imagens/icons/add.png" alt="img">Música</a></li>
-            <li><a href="/admin/autor"><img src="/imagens/icons/add.png" alt="img">Autor</a></li>
-            <li><a href="/admin/genero"><img src="/imagens/icons/add.png" alt="img">Gênero</a></li>
-            <li><a href="/admin/instrumento"><img src="/imagens/icons/add.png" alt="img">Instrumento</a></li>
-            <li><a href="/admin/interpretacoes"><img src="/imagens/icons/add.png" alt="img">Interpretações</a></li>
-            <li><a href="/"><img src="/imagens/icons/home.png" alt="img">Home</a></li>
-            <li><a href="/usuario/logout"><img src="/imagens/icons/logout.png" alt="img">Logout</a></li>
+            <li><a href="/admin/"><img src="/imgs/icons/shield-person.png" alt="img">Painel</a></li>
+            <li><a href="/admin/musica"><img src="/imgs/icons/add.png" alt="img">Música</a></li>
+            <li><a href="/admin/autor"><img src="/imgs/icons/add.png" alt="img">Autor</a></li>
+            <li><a href="/admin/genero"><img src="/imgs/icons/add.png" alt="img">Gênero</a></li>
+            <li><a href="/admin/instrumento"><img src="/imgs/icons/add.png" alt="img">Instrumento</a></li>
+            <li><a href="/admin/interpretacoes"><img src="/imgs/icons/add.png" alt="img">Interpretações</a></li>
+            <li><a href="/"><img src="/imgs/icons/home.png" alt="img">Home</a></li>
+            <li><a href="/usuario/logout"><img src="/imgs/icons/logout.png" alt="img">Logout</a></li>
         </ul>
-    </nav>
+    </aside>
     
     {{{body}}}
 

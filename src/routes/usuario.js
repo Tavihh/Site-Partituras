@@ -46,6 +46,10 @@ router.get('/interpretacoes', logado, (req,res) => {
     })
 })
 
+router.get('/listas', logado, (req,res) => {
+    res.render('usuario/listas')
+})
+
 router.get('/enviarIframe/:musica_id/:instrumento_id/:autor_id', logado, (req,res) => {
     const musica_id = req.params.musica_id
     const instrumento_id = req.params.instrumento_id
