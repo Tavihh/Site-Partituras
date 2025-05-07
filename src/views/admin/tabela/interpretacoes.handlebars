@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/css/partials/tabela.css">
+{{>_message}}
+<section class="tabela-form">
+    <div class="tabela-titulo">
+        <h2>Interpretações</h2>
+        <button onclick="location='/admin/cadastrar/interpretacoes'"><img src="/imgs/icons/add.png" alt=""></button>
+    </div>
+
+    <form action="/admin/psq/interpretacoes" method="get">
+        <input type="search" name="psq" placeholder="Pesquise uma Interpretação">
+        <button type="submit"></button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Usúario</th>
+                <th>Música</th>
+                <th>Instrumento</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each iframes}}
+            <tr onclick="location.href='/admin/view/{{UUID}}'">
+                <td>{{admin.nome}}</td>
+                <td>{{musica.nome}}</td>
+                <td>{{instrumento.nome}}</td>
+                <td>{{status}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>

@@ -1,71 +1,48 @@
-/* Botões de rolagem lateral */
-.autor-botoes {
-    position: absolute;
-    pointer-events: none;
+.autor-h2 {
+    font-size: 1.1em;
+    text-indent: 20px;
+}
+
+.autores-carrosel {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0px -20px;
-    height: 160px;
-    width: 100vw;
+    gap: 5px;
+    padding: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Sessão dos Autores */
-h2 {
-    color: white;
-    text-align: center;
-    padding: 15px;
-}
-.autores {
-    display: flex;
-    overflow: auto;
-    gap: 8px;
-    z-index: -1;
-    padding: 10px 0px;
-    margin: 0px 20px;
-}
-
-.autores img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-}
-
+/* Estilo da partitura */
 .autor-card {
-    text-align: center;
-    color: white;
-    transition: transform 1s;
+    padding: 3px;
+    border-radius: 8px;
+    flex-shrink: 0;
     width: max-content;
-    background-color: transparent;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 0px 1px 2px black;
+    transition: transform 1s;
 }
 
 .autor-card:hover {
-    transform: translateY(-10px);
-    text-decoration: underline;
-    text-decoration-color: #1183d6;
+    cursor: pointer;
+    transform: translateY(-5px);
 }
 
-/* Animações */
-.carroselLeft {
-    animation: carroselLeft 2s ease-in-out forwards;
+.autor-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 1px solid black;
 }
 
-/* Versão mobile */
-@media screen and ( max-width:600px ) {
-    .autor-botoes {
-        display: none;
-    }
-    .autores {
-        margin: 0px;
-    }
-}
-
-/* Animações */
-@keyframes carroselLeft {
-    from {
-        transform: translateX(-100vw);
-    }
-    to {
-        transform: translateX(0px);
-    }
+.autor-card p {
+    max-width: 130px;
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 500;
+    color: black;
 }

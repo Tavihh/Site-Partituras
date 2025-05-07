@@ -1,3 +1,8 @@
+.musica-genero-h2 {
+    font-size: 0.9em;
+    text-indent: 20px;
+}
+
 .musicas-carrosel {
     display: flex;
     gap: 5px;
@@ -6,19 +11,16 @@
     overflow-y: hidden;
     width: 100%;
     box-sizing: border-box;
-}
-
-.musicas-card {
-    max-width: 150px;
-    height: 210px;
-    padding: 3px;
-    background-color: black;
-    border-radius: 8px;
-    flex-shrink: 0;
+    align-items: flex-start;
 }
 
 /* Estilo da partitura */
 .musicas-card {
+    max-width: 130px;
+    width: 100%;
+    padding: 3px;
+    border-radius: 8px;
+    flex-shrink: 0;
     background-color: #101010;
     width: max-content;
     margin-bottom: 10px;
@@ -35,8 +37,7 @@
 }
 
 .musicas-card img {
-    width: 130px;
-    height: 180px;
+    width: 100%;
     border-radius: inherit;
     padding: 1px;
 }
@@ -47,4 +48,13 @@
     font-size: 0.7em;
     font-weight: 500;
     color: white;
+}
+
+@media screen and (max-width:700px) {
+    .musicas-card {
+        max-width: 110px;
+    }
+    .musicas-card p {
+        font-size: 0.5em;
+    }
 }

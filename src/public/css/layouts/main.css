@@ -12,6 +12,7 @@
 
 :root {
     --fundo:#f1f1f1;
+    /* --fundo:blue; */
 }
 
 html, body {
@@ -27,49 +28,122 @@ body::-webkit-scrollbar {
     height: 0px;
 }
 
+/* Estilo do header */
+    .cabecalho {
+        height: 50px;
+        flex-shrink: 0;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--fundo);
+        flex: auto;
+        max-height: 50px;
+        padding: 0px 15px;
+        
+    }
+
+    .cabecalho-logo {
+        cursor: pointer;
+        width: 40px;
+        scale: 0.8;
+        transition: opacity 1s, scale 1s;
+    }
+    
+    .cabecalho-logo:hover {
+        opacity: 0.8;
+        scale: 0.85;
+    }
+
+    .cabecalho-form {
+        display: flex;
+        max-width: 500px;
+        width: 100%;
+        border: 1px solid black;
+        background-color: white;
+        padding-left: 5px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .cabecalho-form-input{
+        flex: auto;
+    }
+
+    .cabecalho-form-submit {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        margin: 5px;
+        background: url(/imgs/icons/search-black.png) no-repeat center center ;
+        background-size: contain;
+        scale: 0.7;
+        cursor: pointer;
+
+    }
+
+    .cabecalho-button {
+        width: max-content;
+        background-color: var(--fundo);
+        padding: 3px;
+        transition: background-color .5s, border-radius 1s;
+    }    
+    
+    .cabecalho-button:hover {
+        cursor: pointer;
+        background-color: #d5d5d5;
+        border-radius: 20px;
+    }
+    
+    .cabecalho-button-img {
+        width: 25px;
+        height: 25px;
+    }
+    
 /* Estilo do Aside */
-aside {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 80px 10px 0px 10px;
-    width: 65px;
-    height: calc(100vh - 50px);
-    background-color: var(--fundo);
-    flex-shrink: 0; /* impede que o aside diminua */
+    .barra-lateral {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 80px 10px 0px 10px;
+        width: 65px;
+        min-height: calc(100vh - 50px);
+        background-color: var(--fundo);
+        flex-shrink: 0; /* impede que o width diminua */
 
-}
+    }
 
-aside.active {
-    display: none;
-}
+    .barra-lateral.active {
+        display: none;
+    }
 
-aside img {
-    width: 25px;
-}
+    .barra-lateral-a-img {
+        width: 25px;
+    }
+    
+    .barra-lateral-a {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid black;
+        padding: 10px;
+        color: black;
+        font-size: 0.8em;
+        font-weight: 800;
+        max-width: 50px;
+        overflow: hidden;
+        transition: background-color 0.5s, border-radius 0.5s;
+    }
+    
+    .barra-lateral-a:hover {
+        background-color: #d5d5d5;
+        border-radius: 10px;
+    }
 
-
-aside a {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border-bottom: 1px solid black;
-    padding: 10px;
-    color: black;
-    font-size: 0.8em;
-    font-weight: 800;
-    max-width: 50px;
-    overflow: hidden;
-    transition: background-color 0.5s, border-radius 0.5s;
-}
-
-aside a:hover {
-    background-color: #d5d5d5;
-    border-radius: 10px;
-}
-
-main {
+/* Estilo do Main e Section */
+.principal {
     background-color: var(--fundo);
     flex: 1;
     display: flex;
@@ -77,84 +151,7 @@ main {
     min-height: calc(100vh - 50px);
 }
 
-/* Estilo do Header */
-
-header {
-    height: 50px;
-    background-color: white;
-    flex-shrink: 0;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--fundo);
-    flex: auto;
-    max-height: 50px;
-    padding: 0px 15px;
-    
-}
-
-.logo {
-    cursor: pointer;
-    width: 40px;
-    transition: opacity 1s, scale 1s;
-}
-
-.logo:hover {
-    opacity: 0.8;
-    scale: 1.1;
-}
-
-h1 {
-    font-size: 1.5em;
-}
-
-form {
-    display: flex;
-    max-width: 500px;
-    width: 100%;
-    border: 1px solid black;
-    background-color: white;
-    padding-left: 5px;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-form input[type='search'] {
-    flex: auto;
-}
-form input[type='submit'].pesquisa {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    margin: 5px;
-    background: url(/imgs/icons/search-black.png) no-repeat center center ;
-    background-size: contain;
-    scale: 0.7;
-    cursor: pointer;
-
-}
-
-header > button {
-    width: max-content;
-    background-color: var(--fundo);
-    transition: background-color .5s, border-radius 1s;
-    padding: 3px;
-}
-
-header > button img {
-    width: 25px;
-    height: 25px;
-}
-
-header > button:hover {
-    cursor: pointer;
-    background-color: #d5d5d5;
-    border-radius: 20px;
-}
-
-/* Estilo do Section */
-section {
+.conteudo {
     background-color: white;
     border-radius: 20px 20px 0px 0px;
     padding: 15px;
@@ -167,11 +164,11 @@ section {
     display: none;
 }
 
-.logo2 {
+.logo2{
     display: block;
     min-width: max-content;
+    font-size: 1.5em;
 }
-
 
 @media screen and (max-width:700px) {
 
@@ -183,7 +180,13 @@ section {
         display: none;
     }
 
-    form {
+    .barra-lateral {
+        display: none;
+    }
+    .barra-lateral.active {
+        display: block;
+    }
+    .cabecalho-form {
         max-width: calc(100% - 75px);
     }
 }

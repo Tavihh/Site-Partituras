@@ -1,10 +1,13 @@
 <link rel="stylesheet" href="/css/home/autor.css">
 
-<main>
-    <div class="autor">
-        <img src="/server-files/autores/{{autor.pathFoto}}" alt="autor" loading="lazy">
-        <p>{{autor.nome}}</p>
+<div class="dados-autor">
+
+    <div class="autor-card">
+        <img src="/server-files/autores/{{autor.pathFoto}}" alt="autor" loading="lazy" class="autor-img">
+        <p class="autor-p">{{autor.nome}}</p>
     </div>
 
-    {{>_partituras}}
-</main>
+    <p class="dados-autor-p">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam optio deserunt fuga expedita molestias quos quibusdam qui, tenetur esse aliquid consectetur tempore quia consequuntur quisquam similique ad officiis dolorum ipsum.</p>
+</div>
+
+{{>_sectionPartituras}}

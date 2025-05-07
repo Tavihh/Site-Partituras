@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="/css/partials/tabela.css">
+{{>_message}}
+<section class="tabela-form">
+    <div class="tabela-titulo">
+        <h2>Instrumentos</h2>
+        <button onclick="location='/admin/cadastrar/instrumento'"><img src="/imgs/icons/add.png" alt=""></button>
+    </div>
+
+    <form action="/admin/psq/instrumento" method="get">
+        <input type="search" name="psq" placeholder="Pesquise um Instrumento">
+        <button type="submit"></button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Nome de Exibição</th>
+                <th>Func</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each instrumentos}}
+            <tr>
+                <td onclick="location.href='/admin/instrumento/{{id}}'">{{nome}}</td>
+                <td onclick="location.href='/admin/instrumento/{{id}}'">{{nomeExibicao}}</td>
+                <td>
+                    <button onclick="location.href = '/admin/trocaOrdem/{{id}}/up'"><img src="/imgs/icons/arrow_up.png" alt=""></button>
+                    <button onclick="location.href = '/admin/trocaOrdem/{{id}}/down'"><img src="/imgs/icons/arrow_down.png" alt=""></button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>

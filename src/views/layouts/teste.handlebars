@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/partials/tabela.css">
+
+<section class="tabela-form">
+    <div class="tabela-titulo">
+        <h2>Músicas</h2>
+        <button><img src="/imgs/icons/add.png" alt=""></button>
+    </div>
+
+    <form action="/admin/psq" method="get">
+        <input type="search" name="psq" placeholder="Pesquise uma Música">
+        <button type="submit"></button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Instrumento</th>
+                <th>Views</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each musicas}}
+            <tr onclick="location.href='/admin/musica/{{id}}'">
+                <td>{{nome}}</td>
+                <td>{{instrumento.nome}}</td>
+                <td>{{views}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>

@@ -1,12 +1,48 @@
 <link rel="stylesheet" href="/css/home/partitura.css">
-
-<h2>Mamãe eu quero</h2>
-<small>Marchinha de Carnaval</small>
-<hr>
-
-
-
-<!-- <input type="file" id="fileInput" accept=".musicxml, .xml"> -->
-<div id="osmd-container"></div>
-
 <script src="https://unpkg.com/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
+
+<div class="dados-partitura">
+    <div class="dados">
+        <h2>{{musica.nome}}</h2>
+        <small>{{musica.genero.nome}}</small>
+        <hr>
+    </div>
+    <p>{{musica.instrumento.nome}}</p>
+    <div id="osmd-container"></div>
+</div>
+
+<script>
+    async function loadMusicXML(pathMXL) {
+    const MXL = '/server-files/musicas/' + pathMXL
+    console.log(MXL)
+    const response = await fetch(MXL); // Busca o arquivo na pasta pública
+    const xmlText = await response.text();
+
+
+    const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmd-container", {
+        // drawingParameters: "compacttight",
+        autoResize: true, // Ajusta automaticamente ao redimensionar a tela
+        drawTitle: false, // Exibe o título da partitura
+        drawComposer: false, // Exibe o nome do compositor
+        drawLyricist: false, // Exibe o letrista
+        drawPartNames: false, // Exibe os Instrumentos
+        drawSlurs: true, // Exibe ligaduras
+        drawLyrics: false, // Mostra letras da música      
+    });
+ 
+    await osmd.load(xmlText);
+    // 📌 Definir escala e espaçamento ANTES de renderizar
+    osmd.zoom = 0.7;  // Equivalente ao antigo "scale"
+    osmd.rules.SpacingBetweenNotesFactor = 0.5; // Equivalente ao antigo "spacingFactor"
+
+    osmd.render();
+}
+
+window.onload = function () {
+    loadMusicXML("{{musica.pathMXL}}");
+}
+
+window.ResizeObserver = function () {
+    loadMusicXML("{{musica.pathMXL}}");
+}
+</script>

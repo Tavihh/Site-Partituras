@@ -82,7 +82,7 @@ router.get('/confirmDelIframe/:uuid', logado, (req,res) => {
 // Rotas POST
 router.post('/login', naoLogado, (req,res,next)=>{
     passport.authenticate('local', {
-        successRedirect:'/',
+        successRedirect:'/admin',
         failureRedirect:'/usuario/login',
         failureFlash:true,
     })(req,res,next)

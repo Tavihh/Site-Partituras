@@ -1,51 +1,14 @@
 <link rel="stylesheet" href="/css/partials/sectionPartituras.css">
-<div class="musicas-carrosel">
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
+{{#each genero}}
+    {{#if temMusica}}
+    <h2 class="musica-genero-h2">{{nome}}</h2>
+    <div class="musicas-carrosel">
+    {{#each musicas}}
+        <div class="musicas-card" onclick="location= '/partitura/{{id}}'">
+            <img src="/server-files/musicas/{{pathPNG}}" alt="">
+            <p>{{nome}}</p>
+        </div>
+    {{/each}}
     </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-    <div class="musicas-card" onclick="location= '/partitura/63'">
-        <img src="/imgs/partitura.jpg" alt="">
-        <p>Se essa rua fosse minha</p>
-    </div>
-</div>
+    {{/if}}
+{{/each}}
