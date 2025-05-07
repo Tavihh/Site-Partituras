@@ -171,12 +171,12 @@ h3 {
 }
 
 .btn-left {
-    background: url(/imagens/icons/arrow-left.png) center center no-repeat;
+    background: url(/imgs/icons/arrow-left.png) center center no-repeat;
     background-size: contain;
 }
 
 .btn-right {
-    background: url(/imagens/icons/arrow-right.png) center center no-repeat ;
+    background: url(/imgs/icons/arrow-right.png) center center no-repeat ;
     background-size: contain;
 }
 

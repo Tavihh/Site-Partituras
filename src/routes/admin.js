@@ -45,8 +45,9 @@ router.get('/', (req,res) => {
 })
 
 // Pesquisa
-router.get('/psq', (req,res) => {
+router.get('/psq/:tipo', (req,res) => {
     const psq = req.query.psq
+    const tipo = req.params.tipo
 
     Promise.all([
         Musica.findAll({include:[{model:Instrumento, attributes:['id','nome']}],where:{nome:{[Op.like]:`%${psq}%`}}}),
@@ -76,40 +77,14 @@ router.get('/psq', (req,res) => {
         res.locals.generos = generos.map(item => item.toJSON())
         res.locals.iframes = iframes.map(item => item.toJSON())
 
-        res.render('admin/index')
+        res.render('admin/tabela/'+tipo)
     }).catch((err) => {
         req.flash('error_msg','Não foi possivel buscar no banco de dados')
-        res.render('admin/index')
+        res.render('admin/tabela/'+tipo)
     })
 })
 
 // Rotas Interpretação
-router.get('/interpretacoes', (req,res) => {
-
-    // Pegando os Iframes
-        Iframe.findAll({
-            where: { status:'pendente' },
-            include: [
-                {
-                    model: Musica,
-                    attributes: ['id', 'nome']
-                },
-                {
-                    model: Instrumento,
-                    attributes: ['id', 'nome']
-                }
-            ]
-    }).then((iframes) => {
-        // Transformando em JSONS
-        res.locals.iframes = iframes.map(item => item.toJSON())
-        // Renderizando
-        res.render('admin/interpretacoes')
-    }).catch((err) => {
-        req.flash('error_msg','Não foi possivel buscar os iframes')
-        res.redirect('/admin')
-    })
-
-})
 
 router.get('/interpretacoes/reject/:uuid', (req,res) => {
     const uuid = req.params.uuid
@@ -207,9 +182,80 @@ router.get('/trocaOrdem/:id/:direction', async(req,res) => {
     }    
 })
 
+// Rotas GET Tabelas
+
+router.get('/musica', (req,res) => {
+    Promise.all([
+        Musica.findAll({include:[{model:Instrumento, attributes:['id','nome']}]}),
+    ]).then(([musicas]) =>{
+        res.locals.musicas = musicas.map(item => item.toJSON())
+        res.render('admin/tabela/musica')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar no banco de dados')
+        res.render('admin/tabela/musica')
+    })
+})
+
+router.get('/autor', (req,res) => {
+    Promise.all([
+        Autor.findAll(),
+    ]).then(([autores]) =>{
+        res.locals.autores = autores.map(item => item.toJSON())
+        res.render('admin/tabela/autor')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar no banco de dados')
+        res.render('admin/tabela/autor')
+    })
+})
+
+router.get('/genero', (req,res) => {
+    Promise.all([
+        Genero.findAll(),
+    ]).then(([generos]) =>{
+        res.locals.generos = generos.map(item => item.toJSON())
+        res.render('admin/tabela/genero')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar no banco de dados')
+        res.render('admin/tabela/genero')
+    })
+})
+
+router.get('/instrumento', (req,res) => {
+    Promise.all([
+        Instrumento.findAll({order: [['order_index', 'ASC']]}),
+    ]).then(([instrumentos]) =>{
+        res.locals.instrumentos = instrumentos.map(item => item.toJSON())
+        res.render('admin/tabela/instrumento')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar no banco de dados')
+        res.render('admin/tabela/instrumento')
+    })
+})
+
+router.get('/interpretacoes', (req,res) => {
+    Promise.all([
+        Iframe.findAll({include:[
+            {model:Instrumento, attributes:['id','nome']},
+            {model:Musica,attributes:['id','nome']},
+            {model:User,attributes:['id','nome']}
+        ],where:{
+            [Op.or]: [
+                { status:{[Op.like]: `aprovado`}},
+                { status:{[Op.like]: `rejeitado`}}
+
+            ]
+        }}),
+    ]).then(([iframe]) =>{
+        res.locals.iframes = iframe.map(item => item.toJSON())
+        res.render('admin/tabela/interpretacoes')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar no banco de dados')
+        res.render('admin/tabela/interpretacoes')
+    })
+})
 
 // Rotas GET Cadastro
-router.get('/musica', (req,res) => {
+router.get('/cadastrar/musica', (req,res) => {
 
     Promise.all([
         Instrumento.findAll(),
@@ -228,16 +274,43 @@ router.get('/musica', (req,res) => {
 
 })
 
-router.get('/autor', (req,res) => {
+router.get('/cadastrar/autor', (req,res) => {
     res.render('admin/add/addAutor')
 })
 
-router.get('/genero', (req,res) => {
+router.get('/cadastrar/genero', (req,res) => {
     res.render('admin/add/addGenero')
 })
 
-router.get('/instrumento', (req,res) => {
+router.get('/cadastrar/instrumento', (req,res) => {
     res.render('admin/add/addInstrumento')
+})
+
+router.get('/cadastrar/interpretacoes', (req,res) => {
+
+    // Pegando os Iframes
+        Iframe.findAll({
+            where: { status:'pendente' },
+            include: [
+                {
+                    model: Musica,
+                    attributes: ['id', 'nome']
+                },
+                {
+                    model: Instrumento,
+                    attributes: ['id', 'nome']
+                }
+            ]
+    }).then((iframes) => {
+        // Transformando em JSONS
+        res.locals.iframes = iframes.map(item => item.toJSON())
+        // Renderizando
+        res.render('admin/add/addInterpretacoes')
+    }).catch((err) => {
+        req.flash('error_msg','Não foi possivel buscar os iframes')
+        res.redirect('/admin')
+    })
+
 })
 
 // Rotas GET Editar
@@ -398,7 +471,7 @@ router.post('/addMusica', (req,res) => {
         if(err) {
             console.log(err)
             req.flash('error_msg', 'Erro interno do multer')
-            res.redirect('/admin/musica')
+            res.redirect('/admin/cadastrar/musica')
         } else {
 
             // verifica quais arquivos foram enviados
@@ -453,7 +526,7 @@ router.post('/addMusica', (req,res) => {
                 })
                 // redirecionando
                 req.flash('erros', erros)
-                res.redirect('/admin/musica')
+                res.redirect('/admin/cadastrar/musica')
             } else {
                 // salvando no banco de dados
                 Musica.create({
@@ -467,7 +540,7 @@ router.post('/addMusica', (req,res) => {
                     autor_id: autor,
                 }).then(() =>{
                     req.flash('success_msg','Musica salva com sucesso')
-                    res.redirect('/admin/musica')
+                    res.redirect('/admin/cadastrar/musica')
                     // tratando erros
                 }).catch((err) => {
                     files.forEach(item => {
@@ -480,7 +553,7 @@ router.post('/addMusica', (req,res) => {
                         }
                     })
                     req.flash('error_msg', 'Erro ao salvar no Banco de dados')
-                    res.redirect('/admin/musica')
+                    res.redirect('/admin/cadastrar/musica')
                 })
             }
         }
@@ -493,7 +566,7 @@ router.post('/addAutor', (req,res) => {
     upload(req, res, (err) => {
         if(err) {
             req.flash('error_msg', 'Erro interno do multer')
-            res.redirect('/admin/autor')
+            res.redirect('/admin/cadastrar/autor')
         } else {
             // validações
             const nome = req.body.nome.trim()
@@ -517,7 +590,7 @@ router.post('/addAutor', (req,res) => {
                     pathFoto:req.file.filename
                 }).then(() =>{
                     req.flash('success_msg','Autor salvo com sucesso')
-                    res.redirect('/admin/autor')
+                    res.redirect('/admin/cadastrar/autor')
                     // tratando erros
                 }).catch((err) => {
                     // tenta apagar o arquivo em caso de erro
@@ -527,7 +600,7 @@ router.post('/addAutor', (req,res) => {
                         }
                     })
                     req.flash('error_msg', 'Erro ao salvar no Banco de dados')
-                    res.redirect('/admin/autor')
+                    res.redirect('/admin/cadastrar/autor')
                 })
             }
         }
@@ -555,10 +628,10 @@ router.post('/addGenero', (req,res) => {
 
         }).then(() => {
             req.flash('success_msg', 'Genero cadastrado com sucesso')
-            res.redirect('/admin/genero')
+            res.redirect('/admin/cadastrar/genero')
         }).catch((err) => {
             req.flash('error_msg', 'Erro ao cadastrar genero')
-            res.redirect('/admin/genero')
+            res.redirect('/admin/cadastrar/genero')
         })
     }
 })
@@ -592,10 +665,10 @@ router.post('/addInstrumento',async (req,res) => {
             order_index: await Instrumento.max('order_index') + 1  // Pega o maior valor de order_index e adiciona 1
         }).then(() => {
             req.flash('success_msg', 'Instrumento cadastrado com sucesso')
-            res.redirect('/admin/instrumento')
+            res.redirect('/admin/cadastrar/instrumento')
         }).catch((err) => {
             req.flash('error_msg', 'Erro ao cadastrar instrumento')
-            res.redirect('/admin/instrumento')
+            res.redirect('/admin/cadastrar/instrumento')
         })
     }
 })
@@ -869,16 +942,16 @@ router.post('/delMusica', (req,res) => {
             })
             // redireciona
             req.flash('success_msg', 'Música deletada com sucesso')
-            res.redirect('/admin')
+            res.redirect('/admin/musica')
         // tratando erros
         }).catch((err) => {
             req.flash('error_msg', 'Erro ao tentar deletar música')
-            res.redirect('/admin')
+            res.redirect('/admin/musica')
         })
     }).catch((err) => {
         console.log(err)
         req.flash('error_msg','informações necessárias não encontradas ou Música não existe')
-        res.redirect('/admin')
+        res.redirect('/admin/musica')
     })
 })
 
@@ -898,16 +971,16 @@ router.post('/delAutor', (req,res) => {
             })
             // redireciona
             req.flash('success_msg', 'Autor deletado com sucesso')
-            res.redirect('/admin')
+            res.redirect('/admin/autor')
         // tratando erros
         }).catch((err) => {
             req.flash('error_msg', 'Erro ao tentar deletar Autor')
-            res.redirect('/admin')
+            res.redirect('/admin/autor')
         })
     }).catch((err) => {
         console.log(err)
         req.flash('error_msg','informações necessárias não encontradas ou Autor não existe')
-        res.redirect('/admin')
+        res.redirect('/admin/autor')
     })
 
 })
@@ -916,11 +989,11 @@ router.post('/delGenero', (req,res) => {
     const id = req.body.id
     Genero.destroy({where:{id:id}}).then(() => {
         req.flash('success_msg', 'Gênero deletado com sucesso')
-        res.redirect('/admin')
+        res.redirect('/admin/genero')
     }).catch((err) => {
         console.log(err)
         req.flash('error_msg','informações necessárias não encontradas ou Gênero não existe')
-        res.redirect('/admin')
+        res.redirect('/admin/genero')
     })
 })
 
@@ -928,11 +1001,11 @@ router.post('/delInstrumento', (req,res) => {
     const id = req.body.id
     Instrumento.destroy({where:{id:id}}).then(() => {
         req.flash('success_msg', 'Instrumento deletado com sucesso')
-        res.redirect('/admin')
+        res.redirect('/admin/instrumento')
     }).catch((err) => {
         console.log(err)
         req.flash('error_msg','informações necessárias não encontradas ou Instrumento não existe')
-        res.redirect('/admin')
+        res.redirect('/admin/instrumento')
     })
 })
 

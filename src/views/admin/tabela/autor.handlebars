@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/css/partials/tabela.css">
+{{>_message}}
+<section class="tabela-form">
+    <div class="tabela-titulo">
+        <h2>Autor</h2>
+        <button onclick="location='/admin/cadastrar/autor'"><img src="/imgs/icons/add.png" alt=""></button>
+    </div>
+
+    <form action="/admin/psq/autor" method="get">
+        <input type="search" name="psq" placeholder="Pesquise um Autor">
+        <button type="submit"></button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each autores}}
+            <tr onclick="location.href='/admin/autor/{{id}}'">
+                <td class="td-img"><img src="/server-files/autores/{{pathFoto}}" alt=""></td>
+                <td>{{nome}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>

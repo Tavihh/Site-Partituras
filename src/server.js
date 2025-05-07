@@ -13,7 +13,7 @@ app.use('/usuario', usuario)
 app.use('/admin', eAdmin, admin)
 // app.use('/admin', admin)
 
-// Outros
+// Outros'
 const PORTA = 2020
 app.listen(PORTA, () => {
     console.log(`Servidor rodando em: http://localhost:${PORTA}`)

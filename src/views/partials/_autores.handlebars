@@ -1,23 +1,19 @@
 <link rel="stylesheet" href="/css/partials/autores.css">
 
-<h2>Autores</h2>
 {{#if autores}}
-<div class="autor-botoes">
-    <div class="left"><button class="btn-left" onclick="javascript:document.querySelector('.autores').scrollBy({left:-370, behavior:'smooth'})"></button></div>
-    <div class="right"><button class="btn-right" onclick="javascript:document.querySelector('.autores').scrollBy({left:370, behavior:'smooth'})"></button></div>
-</div>
-
-<section class="autores carroselLeft">
+<h2 class="autor-h2">Autores</h2>
+<div class="autores-carrosel">
     {{#each autores}}
-    <a href="/autor/{{id}}">
-        <div class="autor-card">
-            <picture>
-                <img src="/server-files/autores/{{pathFoto}}" alt="Foto do autor"
-                    onerror="this.onerror=null; this.src='/imagens/icons/account.png';">
-            </picture>
-            <p>{{nome}}</p>
-        </div>
-    </a>
+    <div class="autor-card" onclick="location= '/autor/{{id}}'">
+        <picture>
+            <img src="/server-files/autores/{{pathFoto}}" alt="Foto do autor" onerror="this.onerror=null; this.src='/imgs/icons/account.png';">
+        </picture>
+        <p>{{nome}}</p>
+    </div>
     {{/each}}
-</section>
+</div>
 {{/if}}
+
+
+
+

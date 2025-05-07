@@ -2,18 +2,20 @@
 const { Sequelize } = require('sequelize')
 
 // config
-const sequelize = new Sequelize({
-    storage: 'database.sqlite',
+const sq = new Sequelize({
+    storage: 'src/config/database.sqlite',
     dialect: 'sqlite',
     logging: false
 })
 
 // autenticando conexão
-sequelize.authenticate().then(() => {
+sq.authenticate().then(() => {
     console.log("MySQL conectado!")
 }).catch((err) => {
     console.log("MySQL falhou!")
 })
 
+
+
 // exportação
-module.exports = sequelize
+module.exports = sq

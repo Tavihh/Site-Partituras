@@ -7,29 +7,26 @@
     <link rel="stylesheet" href="/css/layouts/main.css">
 </head>
 <body>
-
-    <header>
-        <img src="/imgs/logo.png" alt="" class="logo logo1" onclick="toggle()">
-        <h1 class="logo logo2" onclick="toggle()">Trinados</h1>
-        <form action="/pesquisa">
-            <input type="search" name="psq" id="psq" placeholder="Partitura...">
-            <input type="submit" value="" class="pesquisa">
+    <header class="cabecalho">
+        <img src="/imgs/logo.png" alt="" class="cabecalho-logo logo1" onclick="toggle()">
+        <h1 class="cabecalho-logo logo2" onclick="toggle()">Trinados</h1>
+        <form action="/pesquisa" class="cabecalho-form">
+            <input type="search" name="psq" id="psq" placeholder="Partitura..." class="cabecalho-form-input" >
+            <input type="submit" value="" class="cabecalho-form-submit">
         </form>
-        <button><img src="/imgs/icons/notifications-black.png" alt=""></button>
+        <button class="cabecalho-button"><img src="/imgs/icons/notifications-black.png" alt="" class="cabecalho-button-img"></button>
     </header>
-    <main>
-
-        <aside>
-            <a href="/"><abbr title="Home"><img src="/imgs/icons/home-black.png" alt=""></abbr></a>
-            <a href="/usuario/conta"><abbr title="Conta"><img src="/imgs/icons/manage_accounts-black.png" alt=""></abbr></a>
-            <a href="/usuario/interpretacoes"><abbr title="Interpretações"><img src="/imgs/icons/folder_special-black.png" alt=""></abbr></a>
-            <a href="/usuario/listas"><abbr title="Suas Listas"><img src="/imgs/icons/book-black.png" alt=""></abbr></a>
-            <a href="/usuario/logout"><abbr title="logout"><img src="/imgs/icons/logout-black.png" alt=""></abbr></a>
-            <a href="/admin"><abbr title="Admin"><img src="/imgs/icons/shield-person-black.png" alt=""></abbr></a>
-        
+    <main class="principal">
+        <aside class="barra-lateral">
+            <a href="/" class="barra-lateral-a"><abbr title="Home"><img src="/imgs/icons/home-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            <a href="/usuario/conta" class="barra-lateral-a"><abbr title="Conta"><img src="/imgs/icons/manage_accounts-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            <a href="/usuario/interpretacoes" class="barra-lateral-a"><abbr title="Interpretações"><img src="/imgs/icons/folder_special-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            <a href="/usuario/listas" class="barra-lateral-a"><abbr title="Suas Listas"><img src="/imgs/icons/book-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            <a href="/usuario/logout" class="barra-lateral-a"><abbr title="logout"><img src="/imgs/icons/logout-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            <a href="/admin" class="barra-lateral-a"><abbr title="Admin"><img src="/imgs/icons/shield-person-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
         </aside>
 
-        <section>
+        <section class="conteudo">
             {{>_message}}
             {{{body}}}
         </section>

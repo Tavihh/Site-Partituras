@@ -20,153 +20,119 @@ html, body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    justify-content: space-between;
 }
+
+/* Estilo do cabeçalho */
+    .cabecalho {
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0px;
+        justify-content: space-between;
+        padding: 10px;
+        color: white;
+        background-color: black;
+        z-index: 1;
+    }
+
+    .cabecalho-h1 {
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+
+    .cabecalho-button { 
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        background-color: transparent;
+    }
+
+    .cabecalho-button-img {
+        width: 100%;
+        height: 100%;
+    }
+
+/* Barra de navegação lateral*/
+    .barra-lateral {
+        position: fixed;
+        top: 0px;
+        z-index: 2;
+        color: white;
+        background-color: #11111d;
+        height: 100vh;
+        padding: 20px 10px;
+        font-size: 1.2em;
+        border-right: 1px solid black;
+        /* Esconde a barra de navegação */
+        transform: translateX(-100%);
+        transition: 1s;
+    }
+    /* Mostra a barra de navegação */
+    .barra-lateral.active {
+        transform: translateX(0px);
+        background-color: #111;
+
+    }
+
+    .barra-lateral > .card-perfil {
+        text-align: center;
+        font-size: 0.7em;
+        margin-bottom: 5px;
+    }
+
+    .barra-lateral .card-perfil-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: gray;
+    }
+
+    .barra-lateral hr {
+        height: 1px;
+        background-color: white;
+        margin-bottom: 20px;
+    }
+
+    .barra-lateral ul {
+        list-style-type: none;
+    }
+
+    .barra-lateral .links li a {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px 10px;
+        margin: 5px;
+        text-align: center;
+        border-radius: 5px;
+        list-style-type: none;
+        font-size: 0.8em;
+        color: white;
+    }
+
+    .barra-lateral .links li a:hover {
+        background-color: white;
+        color: black;
+    }
+
+    .barra-lateral .links li img {
+        height: 20px;
+    }
 
 main {
     flex: 1;
 }
 
-/* Estilo do cabeçalho */
-header {
-    display: flex;
-    align-items: center;
-    position: sticky;
-    top: 0px;
-    justify-content: space-between;
-    padding: 10px;
-    color: white;
-    background-color: black;
-    z-index: 1;
-}
-
-
-header h1 {
-    font-size: 1.5em;
-    font-weight: 700;
-}
-
-/* Botões de controle */
-header .button-menu { 
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    background-color: transparent;
-}
-
-header .button-menu img {
-    width: 100%;
-    height: 100%;
-}
-
-/* Barra de navegação lateral*/
-aside {
-    position: fixed;
-    top: 0px;
-    z-index: 2;
-
-    color: white;
-    background-color: #11111d;
-    
-    /* width: 170px; */
-    height: 100vh;
-    padding: 20px 10px;
-
-    font-size: 1.2em;
-    border-right: 1px solid black;
-
-    /* Esconde a barra de navegação */
-    transform: translateX(-100%);
-    transition: 1s;
-}
-/* Mostra a barra de navegação */
-aside.active {
-    transform: translateX(0px);
-}
-
-aside .button-menu {
-    position: absolute;
-    top: 0px;
-    right: 5px;
-}
-
-aside h1 {
-    font-size: 1.5em;
-    text-align: center;
-    padding: 0px 20px;
-}
-
-aside .card-perfil {
-    text-align: center;
-    font-size: 0.7em;
-    margin-bottom: 5px;
-}
-
-aside .card-perfil img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: gray;
-}
-
-aside hr {
-    height: 1px;
-    background-color: white;
-    margin-bottom: 20px;
-}
-
-aside ul {
-    list-style-type: none;
-}
-
-aside ul li a {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px 10px;
-    margin: 5px;
-    text-align: center;
-    border-radius: 5px;
-    list-style-type: none;
-    font-size: 0.8em;
-    color: white;
-}
-
-aside ul li a:hover {
-    background-color: white;
-    color: black;
-}
-
-aside ul li img {
-    height: 20px;
+.conteudo {
+    background-color: #222;
+    padding: 15px;
+    flex: 1;
+    scrollbar-width: 0px; 
 }
 
 /* Versão mobile */
-@media screen and ( max-width:800px ) {
-    header {
-        flex-wrap: wrap;
-    }
+@media screen and ( max-width:700px ) {
 
-    header .box {
-        width: 100%;
-        text-align:start;
-    }
-    
-    header h1 {
-        text-align: center;
-        font-size: 2em;
-        margin-bottom: 10px;
-    }
-
-    header button {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-    }
-
-    header form {
-        margin: auto;
-        max-width: 500px;
-        width: 100%;
-    }
 }

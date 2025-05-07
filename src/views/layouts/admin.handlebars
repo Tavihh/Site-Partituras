@@ -7,22 +7,20 @@
     <link rel="stylesheet" href="/css/layouts/admin.css">
 </head>
 <body>
-    {{!-- Header --}}
-    <header>
-        <h1>DashBoard</h1>
-
-        <button class="button-menu" id="button-menu" onclick="toggle()">
-            <img src="/imgs/icons/menu-white.png" alt="img">
+    <header class="cabecalho">
+        <h1 class="cabecalho-h1">DashBoard</h1>
+        <button class="cabecalho-button" id="button-menu" onclick="toggle()">
+            <img src="/imgs/icons/menu-white.png" alt="img" class="cabecalho-button-img">
         </button>
     </header>
-    {{!-- NavSide --}}
-    <aside>  
+
+    <aside class="barra-lateral">  
         <div class="card-perfil">
-            <img src="/imgs/icons/account.png" alt="img">
-            <p>{{user.nome}} {{user.sobrenome}}</p>
+            <img src="/imgs/icons/account.png" alt="img" class="card-perfil-img">
+            <p class="card-perfil-p">{{user.nome}} {{user.sobrenome}}</p>
         </div>
         <hr>
-        <ul>
+        <ul class="links">
             <li><a href="/admin/"><img src="/imgs/icons/shield-person.png" alt="img">Painel</a></li>
             <li><a href="/admin/musica"><img src="/imgs/icons/add.png" alt="img">Música</a></li>
             <li><a href="/admin/autor"><img src="/imgs/icons/add.png" alt="img">Autor</a></li>
@@ -34,8 +32,9 @@
         </ul>
     </aside>
     
-    {{{body}}}
-
+    <section class="conteudo">
+        {{{body}}}
+    </section>
     {{>_footer}}
 </body>
 <script src="/js/scripts.js"></script>

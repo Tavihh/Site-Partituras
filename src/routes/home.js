@@ -10,21 +10,22 @@ const Iframe = require('../models/Iframe');
 
 // rotas
 router.get('/', async (req,res) => {
-    // Busca os Instrumentos
-    let instrumentos = await Instrumento.findAll({order:[['order_index', 'ASC']]});
-    instrumentos = await Promise.all(instrumentos.map(async (item) => {
+    // Busca os generos
+    let genero = await Genero.findAll();
+
+    genero = await Promise.all(genero.map(async (item) => {
         item = item.toJSON()
-        // Para cada instrumento ele busca suas músicas
-        let musicas = await Musica.findAll({where:{instrumento_id:item.id},limit:20})
+        // Para cada genero ele busca suas músicas
+        let musicas = await Musica.findAll({where:{genero_id:item.id},limit:20})
         item.musicas = await Promise.all(musicas.map(musica => musica.toJSON()))
-        // Caso não tenha nenhumca adiciona um valor booleano true
+        // Caso não tenha alguma adiciona um valor booleano true
         if(musicas.length > 0) {
         item.temMusica = true
         }
         return item
     }));
     // renderiza
-    res.locals.instrumentos = instrumentos
+    res.locals.genero = genero
     res.render('home/home')
 })
 
@@ -66,21 +67,25 @@ router.get('/pesquisa', async (req,res) => {
 
     // Busca os Autores
     let autores = await Autor.findAll({where:{nome:{[Op.like]:`%${psq}%`}}})
-    // Busca os Instrumentos
-    let instrumentos = await Instrumento.findAll({order: [['order_index', 'ASC']]});
-    instrumentos = await Promise.all(instrumentos.map(async (item) => {
+    // Busca os generos
+    let genero = await Genero.findAll();
+
+    genero = await Promise.all(genero.map(async (item) => {
         item = item.toJSON()
-        // Para cada instrumento ele busca suas músicas
-        let musicas = await Musica.findAll({where:{instrumento_id:item.id,nome:{[Op.like]:`%${psq}%`}},limit:20})
+        // Para cada genero ele busca suas músicas
+        let musicas = await Musica.findAll({where:{genero_id:item.id,nome:{[Op.like]:`%${psq}%`}},limit:20})
         item.musicas = await Promise.all(musicas.map(musica => musica.toJSON()))
-        // Caso não tenha nenhumca adiciona um valor booleano true
+        // Caso não tenha alguma adiciona um valor booleano true
         if(musicas.length > 0) {
         item.temMusica = true
         }
         return item
     }));
     // renderiza
-    res.locals.instrumentos = instrumentos
+    res.locals.genero = genero
+
+
+
     res.locals.autores = await autores.map(item => item.toJSON())
     res.render('home/pesquisa')
 })
@@ -90,23 +95,28 @@ router.get('/autor/:id', async (req,res) => {
     // Busca o Autor
     let autor = await Autor.findOne({where:{id:id}})
 
-    // Busca os Instrumentos
-    let instrumentos = await Instrumento.findAll();
-    instrumentos = await Promise.all(instrumentos.map(async (item) => {
-        item = item.toJSON()
-        // Para cada instrumento ele busca suas músicas
-        let musicas = await Musica.findAll({where:{instrumento_id:item.id,autor_id:id}})
-        item.musicas = await Promise.all(musicas.map(musica => musica.toJSON()))
-        // Caso não tenha nenhumca adiciona um valor booleano true
-        if(musicas.length > 0) {
-        item.temMusica = true
-        }
-        return item
-    }));
-    // renderiza
-    res.locals.instrumentos = instrumentos
+        // Busca os generos
+        let genero = await Genero.findAll();
+
+        genero = await Promise.all(genero.map(async (item) => {
+            item = item.toJSON()
+            // Para cada genero ele busca suas músicas
+            let musicas = await Musica.findAll({where:{genero_id:item.id,autor_id:id}})
+            item.musicas = await Promise.all(musicas.map(musica => musica.toJSON()))
+            // Caso não tenha alguma adiciona um valor booleano true
+            if(musicas.length > 0) {
+            item.temMusica = true
+            }
+            return item
+        }));
+        // renderiza
+        res.locals.genero = genero
     res.locals.autor = autor.toJSON()
     res.render('home/autor')
+})
+
+router.get('/teste', (req,res) => {
+    res.render('layouts/teste', {layout:'admin'})
 })
 
 // exportação

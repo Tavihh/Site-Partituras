@@ -1,11 +1,21 @@
+.dados {
+    margin: auto;
+    text-align: center;
+}
+
 h2 {
     font-size: 1.1em;
+
+}
+
+h4 {
+    font-weight:400;
 }
 
 hr {
     border: 1px solid blue;
     width: 30px;
-    margin: 5px 0px;
+    margin: auto;
 }
 
 h3 {
@@ -21,10 +31,15 @@ h3 {
     height: auto;
 }
 
+.dados-partitura {
+    border-radius: 5px;
+    border-bottom: 1px solid black;
+    border-bottom-left-radius: 1px solid black;
+    border-bottom-right-radius: 1px solid black;
+}
+
 #osmd-container {
     width: 100%;
-    border: 1px solid black;
-    border-radius: 5px;
     margin: auto;
     height: auto;
 }
@@ -32,8 +47,5 @@ h3 {
 @media screen and (max-width:700px) {
     section {
         padding-top: 10px;
-    }
-    h2, small, hr {
-        margin-left: 10px;
     }
 }
