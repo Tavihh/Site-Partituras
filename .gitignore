@@ -1,3 +1,4 @@
 node_modules
 src/config/database.sqlite
-src/public/server-files
+src/public/server-files/musicas/*
+src/public/server-files/autores/*
