@@ -137,33 +137,44 @@ router.post('/registrar', naoLogado, (req,res) => {
                 req.flash('error_msg','E-mail já em uso')
                 res.redirect('/usuario/registrar')
             } else {
-                // criptografando senha
-                bcrypt.genSalt(10).then((salt)=>{
-                    bcrypt.hash(senha,salt).then((senha)=>{
-                        // salvando usúario
-                        User.create({
-                            nome:nome,
-                            sobrenome:sobrenome,
-                            email:email,
-                            senha:senha
-                        }).then(()=>{
-                            // retornando a página de login com novo usúario cadastrado
-                            req.flash('success_msg','Usúario criado com sucesso')
-                            res.redirect('/usuario/login')
-                            // tratando erros
+                User.findAll().then((users) => {
+                    let eAdmin = false
+                    if(users.length == 0) {
+                        eAdmin = true;
+                    }
+                    // criptografando senha
+                    bcrypt.genSalt(10).then((salt)=>{
+                        bcrypt.hash(senha,salt).then((senha)=>{
+                            // salvando usúario
+                            User.create({
+                                nome:nome,
+                                sobrenome:sobrenome,
+                                email:email,
+                                senha:senha,
+                                eAdmin:eAdmin
+                            }).then(()=>{
+                                // retornando a página de login com novo usúario cadastrado
+                                req.flash('success_msg','Usúario criado com sucesso')
+                                res.redirect('/usuario/login')
+                                // tratando erros
+                            }).catch((err)=>{
+                                console.log("Erro ao salvar a conta de um usúario no banco de dados, Erro:",err.message)
+                                req.flash('error_msg','Erro interno, tente novamente mais tarde')
+                                res.redirect('/usuario/registrar')
+                            })
                         }).catch((err)=>{
-                            console.log("Erro ao salvar a conta de um usúario no banco de dados, Erro:",err.message)
+                            console.log('Erro ao gerar o hash da senha no bcrypt, Erro:',err.message)
                             req.flash('error_msg','Erro interno, tente novamente mais tarde')
                             res.redirect('/usuario/registrar')
                         })
                     }).catch((err)=>{
-                        console.log('Erro ao gerar o hash da senha no bcrypt, Erro:',err.message)
+                        console.log('Erro ao gerar o salt da senha no bcrypt, Erro:',err.message)
                         req.flash('error_msg','Erro interno, tente novamente mais tarde')
                         res.redirect('/usuario/registrar')
                     })
-                }).catch((err)=>{
-                    console.log('Erro ao gerar o salt da senha no bcrypt, Erro:',err.message)
-                    req.flash('error_msg','Erro interno, tente novamente mais tarde')
+                }).catch((err) => {
+                    req.flash('error_msg','Não foi possivel verificar o Banco de dados')
+                    console.log('Erro ao verificar se esse é o primeiro usúario criado, Erro:',err.message)
                     res.redirect('/usuario/registrar')
                 })
             }
