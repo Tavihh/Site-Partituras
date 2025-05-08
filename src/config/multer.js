@@ -2,6 +2,7 @@
 const multer = require('multer')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs')
 
 // config
 const autor = multer.diskStorage({
@@ -9,7 +10,11 @@ const autor = multer.diskStorage({
         cb(null,`${Date.now()}-${file.originalname}`)
     },
     destination: (req, file, cb) => {
-        cb(null,path.join(__dirname,'../public/server-files/autores'))
+        const pasta = path.join(__dirname,'../public/server-files/autores')
+        if(!fs.existsSync(pasta)) {
+            fs.mkdirSync(pasta, {recursive:true})
+        }
+        cb(null,pasta)
     }
 })
 
@@ -18,7 +23,11 @@ const musica = multer.diskStorage({
         cb(null,`${uuidv4()}-${file.originalname}`)
     },
     destination: (req, file, cb) => {
-        cb(null,path.join(__dirname,'../public/server-files/musicas'))
+        const pasta = path.join(__dirname,'../public/server-files/musicas')
+        if(!fs.existsSync(pasta)) {
+            fs.mkdirSync(pasta, {recursive:true})
+        }
+        cb(null,pasta)
     }
 })
 
