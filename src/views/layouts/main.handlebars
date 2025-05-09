@@ -20,10 +20,13 @@
         <aside class="barra-lateral">
             <a href="/" class="barra-lateral-a"><abbr title="Home"><img src="/imgs/icons/home-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
             <a href="/usuario/conta" class="barra-lateral-a"><abbr title="Conta"><img src="/imgs/icons/manage_accounts-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
-            <a href="/usuario/interpretacoes" class="barra-lateral-a"><abbr title="Interpretações"><img src="/imgs/icons/folder_special-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
-            <a href="/usuario/listas" class="barra-lateral-a"><abbr title="Suas Listas"><img src="/imgs/icons/book-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
-            <a href="/usuario/logout" class="barra-lateral-a"><abbr title="logout"><img src="/imgs/icons/logout-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            {{#if user}}
+            {{!-- <a href="/usuario/interpretacoes" class="barra-lateral-a"><abbr title="Interpretações"><img src="/imgs/icons/book-black.png" alt=""  class="barra-lateral-a-img"></abbr></a> --}}
+            {{#if user.eAdmin}}
             <a href="/admin" class="barra-lateral-a"><abbr title="Admin"><img src="/imgs/icons/shield-person-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            {{/if}}
+            <a href="/usuario/logout" class="barra-lateral-a"><abbr title="logout"><img src="/imgs/icons/logout-black.png" alt=""  class="barra-lateral-a-img"></abbr></a>
+            {{/if}}
         </aside>
 
         <section class="conteudo">

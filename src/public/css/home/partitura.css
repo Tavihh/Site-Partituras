@@ -1,27 +1,50 @@
+.partitura-controles {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid #333; */
+    border-radius: 5px;
+    padding: 10px 5px;
+}
+
+.partitura-controles div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.partitura-controles div:nth-child(1) a:hover {
+    animation: download 1s alternate infinite backwards ;
+}
+
+.partitura-controles div:nth-child(2) a {
+    background-color: #333;
+    border: 1px solid black;
+    padding: 8px;
+    color: white;
+    border-radius: 5px;
+}
+
 .dados {
     margin: auto;
     text-align: center;
 }
 
-h2 {
+.dados h2 {
     font-size: 1.1em;
 
 }
 
-h4 {
-    font-weight:400;
-}
+/* hr {
+    border: 1px solid #333;
+} */
 
-hr {
+.dados hr {
     border: 1px solid blue;
     width: 30px;
     margin: auto;
-}
-
-h3 {
-    font-size: 0.9em;
-    text-indent: 40px;
-    padding: 10px 0px;
 }
 
 .partitura {
@@ -38,14 +61,33 @@ h3 {
     border-bottom-right-radius: 1px solid black;
 }
 
+.iframe {
+    border-radius: 20px;
+    border: 1px solid black;
+    overflow: hidden;
+    margin: auto;
+    text-align: center;
+    width: max-content;
+}
+
 #osmd-container {
     width: 100%;
     margin: auto;
     height: auto;
 }
 
+@keyframes download {
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
 @media screen and (max-width:700px) {
     section {
         padding-top: 10px;
+    }
+    .partitura-controles {
+        justify-content: center;
+        flex-direction: column;
     }
 }

@@ -12,3 +12,16 @@
     </div>
     {{/if}}
 {{/each}}
+
+
+{{#if musicas}}
+<h2 class="musica-genero-h2">{{nome}}</h2>
+<div class="musicas-carrosel">
+{{#each musicas}}
+    <div class="musicas-card" onclick="location= '/partitura/{{id}}'">
+        <img src="/server-files/musicas/{{pathPNG}}" alt="">
+        <p>{{nome}}</p>
+    </div>
+{{/each}}
+</div>
+{{/if}}
