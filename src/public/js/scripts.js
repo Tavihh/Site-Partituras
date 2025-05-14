@@ -34,7 +34,11 @@ file.forEach(file => {
 // NavSide Lateral
 function toggle() {
     const aside = document.querySelector("aside");
+    const musicasCarrosel = document.querySelector(".musicas-carrosel");
+    const autoresCarrosel = document.querySelector(".autores-carrosel");
     aside.classList.toggle("active");
+    musicasCarrosel.classList.toggle("active");
+    autoresCarrosel.classList.toggle("active");
 }
 
 addEventListener('click', (event) => {
