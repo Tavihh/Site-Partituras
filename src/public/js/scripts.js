@@ -60,8 +60,3 @@ function SR(id) {
     const section = document.getElementById(id)
     section.scrollBy({left:400, behavior: 'smooth'})
 }
-const logo1 = document.getElementsByClassName('logo1')[0]
-const logo2 = document.getElementsByClassName('logo2')[0]
-
-logo1.addEventListener('click', loadMusicXML)
-logo2.addEventListener('click', loadMusicXML)

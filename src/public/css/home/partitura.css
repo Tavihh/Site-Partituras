@@ -34,7 +34,6 @@
 
 .dados h2 {
     font-size: 1.1em;
-
 }
 
 /* hr {
@@ -86,8 +85,16 @@
     section {
         padding-top: 10px;
     }
+    .conteudo {
+        padding: 0px;
+    }
+    
     .partitura-controles {
         justify-content: center;
         flex-direction: column;
+    }
+
+    .dados-partitura p {
+        text-indent: 10px;
     }
 }
