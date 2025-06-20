@@ -7,6 +7,12 @@ const Genero = require('../models/Genero');
 const Op = require('sequelize').Op
 const { viewsMusica, viewsIframe } = require('../helpers/views'); 
 const Iframe = require('../models/Iframe');
+const { musica } = require('../config/multer');
+const { Partitura } = require('../helpers/Partitura')
+const path = require('path')
+const fs = require('fs')
+const MusicaVersoes = require('../models/MusicaVersoes');
+const { where } = require('sequelize');
 
 // rotas
 router.get('/', async (req,res) => {
@@ -30,8 +36,10 @@ router.get('/', async (req,res) => {
 })
 
 router.get('/partitura/:id', async (req,res) => {
+
     const id = req.params.id
-    Musica.findOne({
+    Promise.all([
+        Musica.findOne({
         where:{id:id},
         include:[
             {model:Autor,attributes:['id','nome','pathFoto']},
@@ -39,28 +47,127 @@ router.get('/partitura/:id', async (req,res) => {
             {model:Genero,attributes:['id','nome']}
         ],
         order: [[Instrumento,'order_index', 'ASC']]
-    }).then(async (musica) => {
-        let musicas = await Musica.findAll({where:{instrumento_id:musica.instrumento_id}})
-        let iframe = await Iframe.findOne({where:{musica_id:id, status:'aprovado'}}) 
-        if (iframe) {
-            await viewsIframe(iframe.UUID)
-            res.locals.iframe = iframe.toJSON()
-        }
-        res.locals.musica = musica.toJSON()
-        res.locals.musicas = musicas.map(item => item.toJSON())
+    }),
+        Instrumento.findAll()
 
-        
-        // Incrementa as Views
-        await viewsMusica(id)
+    ]).then( async ([musica, instrumentos]) => {
+    let musicas = await Musica.findAll({where:{instrumento_id:musica.instrumento_id}})
+            let iframe = await Iframe.findOne({where:{musica_id:id, status:'aprovado'}}) 
+            if (iframe) {
+                await viewsIframe(iframe.UUID)
+                res.locals.iframe = iframe.toJSON()
+            }
+            res.locals.instrumentos = instrumentos.map(item => {
+            item = item.toJSON()
+            if (item.id == musica.instrumento_id) {
+                item.selected = true
+            }
+            return item
+        })
 
-        // Renderiza
-        res.render('home/partitura')
+            musica.pathMXL = `/musicas/${musica.pathMXL}`
+            res.locals.musica = musica.toJSON()
+            res.locals.musicas = musicas.map(item => item.toJSON())
+
+            
+            // Incrementa as Views
+            await viewsMusica(id)
+
+            // Renderiza
+            res.render('home/partitura')
     }).catch((err) => {
         req.flash('error_msg','Música não existe')
         res.redirect('/')
     })
-
 })
+
+router.get('/partitura/:id/versao/:idinstrumento', (req, res) => {
+  const id = req.params.id;
+  const IdInstrumento = req.params.idinstrumento;
+
+  Promise.all([
+    MusicaVersoes.findOne({
+      where: { id, instrumento_id:IdInstrumento },
+      include: [
+        {
+          model: Musica,
+          attributes: ['id', 'nome', 'instrumento_id'],
+          include: [
+            { model: Autor, attributes: ['id', 'nome', 'pathFoto'] }
+          ]
+        },
+        { model: Instrumento, attributes: ['id', 'nome', 'order_index'] },
+        { model: Genero, attributes: ['id', 'nome'] }
+      ]
+    }),
+    Instrumento.findAll({ order: [['order_index', 'ASC']] }),
+  ]).then(async ([musicaVersao, instrumentos]) => {
+    if (!musicaVersao) throw new Error('Versão não encontrada');
+
+    const musica = musicaVersao.toJSON();
+
+    res.locals.instrumentos = instrumentos.map(item => {
+      item = item.toJSON();
+      if (item.id == musica.instrumento_id) item.selected = true;
+      if (item.id == musica.musica.instrumento_id) item.original = true
+      return item;
+    });
+
+    let musicas = await Musica.findAll({
+      where: { instrumento_id: musica.instrumento_id }
+    });
+
+    res.locals.musica = musica;
+    res.locals.musicas = musicas.map(item => item.toJSON());
+
+    res.render('home/partituraVersao');
+  }).catch(err => {
+    // versão não existe ainda, cria agora
+
+    Promise.all([
+      Musica.findOne({
+        where: { id },
+        include: [
+          { model: Autor, attributes: ['id', 'nome', 'pathFoto'] },
+          { model: Instrumento, attributes: ['id', 'nome', 'chromatic', 'octave_change', 'order_index'] },
+          { model: Genero, attributes: ['id', 'nome'] }
+        ]
+      }),
+      Instrumento.findOne({ where: { id: IdInstrumento } })
+    ]).then(([musica, instrumento]) => {
+      const part = new Partitura(path.join(__dirname, '../public/server-files/musicas/', musica.pathMXL));
+
+      part.inicializar().then(() => {
+        part.setInstrumento(instrumento);
+        part.transporArmadura(musica.instrumento.chromatic - instrumento.chromatic);
+        part.transporNotas(
+          musica.instrumento.chromatic - instrumento.chromatic +
+          (12 * musica.instrumento.octave_change) +
+          (12 * instrumento.octave_change)
+        );
+
+        const pasta = path.join(__dirname, '../public/server-files/versoes');
+        if (!fs.existsSync(pasta)) fs.mkdirSync(pasta, { recursive: true });
+
+        const pathMXL = `${musica.id} - ${musica.nome} - ${instrumento.id}.musicxml`;
+        part.salvarXML(path.join(pasta, pathMXL));
+
+        MusicaVersoes.create({
+          nome: musica.nome,
+          pathMXL: pathMXL,
+          musica_id: musica.id,
+          genero_id: musica.genero.id,
+          instrumento_id: IdInstrumento
+        }).then(novaVersao => {
+          res.redirect(`/partitura/${novaVersao.id}/versao/${IdInstrumento}`);
+        });
+      });
+    }).catch(error => {
+      console.error(error);
+      res.status(500).send("Erro ao criar nova versão.");
+    });
+  });
+});
 
 router.get('/pesquisa', async (req,res) => {
     const psq = req.query.psq

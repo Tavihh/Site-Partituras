@@ -8,6 +8,16 @@
             <input type="hidden" name="id" value="{{instrumento.id}}">
             <input type="text" name="instrumento" id="instrumento" class="form-input" placeholder="Instrumento" value="{{instrumento.nome}}">
             <input type="text" name="nomeExibicao" id="nomeExibicao" class="form-input" placeholder="Nome de Exibição" value="{{instrumento.nomeExibicao}}">
+
+            <input type="text" name="part_name" id="part_name" class="form-input" placeholder="Part Name" value="{{instrumento.part_name}}">
+            <input type="text" name="part_abbreviation" id="part_abbreviation" class="form-input" placeholder="Part Abbreviation" value="{{instrumento.part_abbreviation}}">
+            <input type="text" name="instrument_name" id="instrument_name" class="form-input" placeholder="Instrument Name" value="{{instrumento.instrument_name}}">
+            <input type="text" name="instrument_sound" id="instrument_sound" class="form-input" placeholder="Instrument Sound" value="{{instrumento.instrument_sound}}">
+            <input type="text" name="diatonic" id="diatonic" class="form-input" placeholder="Diatonic" value="{{instrumento.diatonic}}">
+            <input type="text" name="chromatic" id="chromatic" class="form-input" placeholder="Chromatic" value="{{instrumento.chromatic}}">
+            <input type="text" name="octave_change" id="octave_change" class="form-input" placeholder="Octave Change" value="{{instrumento.octave_change}}">
+            <input type="text" name="sign" id="sign" class="form-input" placeholder="Sign" value="{{instrumento.sign}}">
+            <input type="text" name="line" id="line" class="form-input" placeholder="Line" value="{{instrumento.line}}">
             <input type="submit" value="Atualizar" class="form-submit">
             <input type="button" value="Deletar" class="form-submit danger" onclick="location.href = '/admin/confirmDelInstrumento/{{instrumento.id}}'">
             <input type="button" value="Voltar" class="form-submit" onclick="location.href = '/admin'">

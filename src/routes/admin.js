@@ -639,21 +639,57 @@ router.post('/addGenero', (req,res) => {
 router.post('/addInstrumento',async (req,res) => {
     const nome = await req.body.instrumento
     const nomeExibicao = await req.body.nomeExibicao
+    const part_name = await req.body.part_name
+    const part_abbreviation = await req.body.part_abbreviation
+    const instrument_name = await req.body.instrument_name
+    const instrument_sound = await req.body.instrument_sound
+    const diatonic = await req.body.diatonic
+    const chromatic = await req.body.chromatic
+    const octave_change = await req.body.octave_change
+    const sign = await req.body.sign
+    const line = await req.body.line
 
     // verificando os inputs
     let erros = await []
 
     if(!nome) {
-       await erros.push({texto:'Nome inválido'})
+        await erros.push({texto:'Nome inválido'})
     }
     if(!nomeExibicao) {
-       await erros.push({texto:'Nome de Exibição inválido'})
+        await erros.push({texto:'Nome de Exibição inválido'})
+    }
+    if(!part_name) {
+        await erros.push({texto:'Part Name Inválido'})
+    }
+    if(!part_abbreviation) {
+        await erros.push({texto:'Part Abbreviation Inválido'})
+    }
+    if(!instrument_name) {
+        await erros.push({texto:'Instrument Name Inválido'})
+    }
+    if(!instrument_sound) {
+        await erros.push({texto:'Instrument Sound Inválido'})
+    }
+    if(!diatonic) {
+        await erros.push({texto:'Diatonic Inválido'})
+    }
+    if(!chromatic) {
+        await erros.push({texto:'Chromatic Inválido'})
+    }
+    if(!octave_change) {
+        await erros.push({texto:'Octave Change Inválido'})
+    }
+    if(!sign) {
+        await erros.push({texto:'Sign Inválido'})
+    }
+    if(!line) {
+        await erros.push({texto:'Line Inválido'})
     }
     if(nome < 3) {
-       await erros.push({texto:'Nome muito curto'})
+        await erros.push({texto:'Nome muito curto'})
     }
     if(nomeExibicao < 3) {
-       await erros.push({texto:'Nome de Exibição muito curto'})
+        await erros.push({texto:'Nome de Exibição muito curto'})
     }
     // retornando os erros
     if(erros.length > 0) {
@@ -662,12 +698,22 @@ router.post('/addInstrumento',async (req,res) => {
         Instrumento.create({
             nome:nome,
             nomeExibicao:nomeExibicao,
+            part_name:part_name,
+            part_abbreviation:part_abbreviation,
+            instrument_name:instrument_name,
+            instrument_sound:instrument_sound,
+            diatonic:diatonic,
+            chromatic:chromatic,
+            octave_change:octave_change,
+            sign:sign,
+            line:line,
             order_index: await Instrumento.max('order_index') + 1  // Pega o maior valor de order_index e adiciona 1
         }).then(() => {
             req.flash('success_msg', 'Instrumento cadastrado com sucesso')
             res.redirect('/admin/cadastrar/instrumento')
         }).catch((err) => {
             req.flash('error_msg', 'Erro ao cadastrar instrumento')
+            console.log(err)
             res.redirect('/admin/cadastrar/instrumento')
         })
     }
@@ -884,6 +930,15 @@ router.post('/editInstrumento', (req,res) => {
     const id = req.body.id
     const nome = req.body.instrumento
     const nomeExibicao = req.body.nomeExibicao
+    const part_name = req.body.part_name
+    const part_abbreviation = req.body.part_abbreviation
+    const instrument_name = req.body.instrument_name
+    const instrument_sound = req.body.instrument_sound
+    const diatonic = req.body.diatonic
+    const chromatic = req.body.chromatic
+    const octave_change = req.body.octave_change
+    const sign = req.body.sign
+    const line = req.body.line
 
     // verificando os inputs
     let erros = []
@@ -893,6 +948,33 @@ router.post('/editInstrumento', (req,res) => {
     }
     if(!nomeExibicao) {
         erros.push({texto:'Nome de Exibição inválido'})
+    }
+    if(!part_name) {
+        erros.push({texto:'Part Name Inválido'})
+    }
+    if(!part_abbreviation) {
+        erros.push({texto:'Part Abbreviation Inválido'})
+    }
+    if(!instrument_name) {
+        erros.push({texto:'Instrument Name Inválido'})
+    }
+    if(!instrument_sound) {
+        erros.push({texto:'Instrument Sound Inválido'})
+    }
+    if(!diatonic) {
+        erros.push({texto:'Diatonic Inválido'})
+    }
+    if(!chromatic) {
+        erros.push({texto:'Chromatic Inválido'})
+    }
+    if(!octave_change) {
+        erros.push({texto:'Octave Change Inválido'})
+    }
+    if(!sign) {
+        erros.push({texto:'Sign Inválido'})
+    }
+    if(!line) {
+        erros.push({texto:'Line Inválido'})
     }
     if(nome < 3) {
         erros.push({texto:'Nome muito curto'})
@@ -907,7 +989,16 @@ router.post('/editInstrumento', (req,res) => {
     } else {
         Instrumento.update({
             nome:nome,
-            nomeExibicao:nomeExibicao
+            nomeExibicao:nomeExibicao.Autor,
+            part_name:part_name,
+            part_abbreviation:part_abbreviation,
+            instrument_name:instrument_name,
+            instrument_sound:instrument_sound,
+            diatonic:diatonic,
+            chromatic:chromatic,
+            octave_change:octave_change,
+            sign:sign,
+            line:line,
         },{where:{id:id}}).then(() => {
             req.flash('success_msg', 'Instrumento Atualizado com sucesso')
             res.redirect(`/admin/instrumento/${id}`)

@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="/css/home/partitura.css">
+<script src="https://unpkg.com/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
+
+<div class="dados-partitura">
+    <div class="dados">
+        <h2>{{musica.nome}}</h2>
+        <small>{{musica.genero.nome}}</small>
+        <hr>
+    </div>
+
+    <select name="instrumento" id="instrumento" onchange="location.href=this.value">
+        {{#each instrumentos}}
+        <option 
+            value="{{#if original}}/partitura/{{../musica.musica.id}}{{else}}/partitura/{{../musica.musica.id}}/versao/{{id}}{{/if}}"
+            {{#if selected}}selected{{/if}}>
+            {{nome}}
+        </option>
+        {{/each}}
+    </select>
+
+    <div id="osmd-container"></div>
+</div>
+
+<div class="partitura-controles">
+    <div>
+        <audio controls>
+            <source src="/server-files/musicas/{{musica.pathMP3}}" type="audio/mpeg">
+        </audio>
+        <a href="/server-files/musicas/{{musica.pathMP3}}" download="{{musica.nome}} - {{musica.instrumento.nome}}">
+            <img src="/imgs/icons/donwload.png" alt="">
+        </a>
+    </div>
+    <div>
+        <a href="/server-files/musicas/{{musica.pathPDF}}" download="{{musica.nome}} - {{musica.instrumento.nome}}">Partitura - PDF</a>
+        <a href="/server-files/versoes/{{musica.pathMXL}}" download="{{musica.nome}} - {{musica.instrumento.nome}}.musicxml">Partitura - MXL</a>
+    </div>
+</div>
+
+<hr>
+{{> _sectionPartituras}}
+
+<script>
+    async function loadMusicXML(pathMXL) {
+        const MXL = '/server-files/versoes/' + pathMXL;
+        console.log(MXL);
+        const response = await fetch(MXL);
+        const xmlText = await response.text();
+
+        const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmd-container", {
+            autoResize: true,
+            drawTitle: false,
+            drawComposer: false,
+            drawLyricist: false,
+            drawPartNames: false,
+            drawSlurs: true,
+            drawLyrics: false,
+        });
+
+        await osmd.load(xmlText);
+        osmd.zoom = 0.7;
+        osmd.rules.SpacingBetweenNotesFactor = 0.5;
+        osmd.render();
+    }
+
+    window.onload = function () {
+        loadMusicXML("{{musica.pathMXL}}");
+    }
+
+    // Isso não é um ResizeObserver verdadeiro — pode remover ou adaptar depois
+    window.ResizeObserver = function () {
+        loadMusicXML("{{musica.pathMXL}}");
+    }
+
+    const logo1 = document.querySelector('.logo1');
+    const logo2 = document.querySelector('.logo2');
+
+    if (logo1) logo1.addEventListener('click', function () {
+        loadMusicXML("{{musica.pathMXL}}");
+    });
+
+    if (logo2) logo2.addEventListener('click', function () {
+        loadMusicXML("{{musica.pathMXL}}");
+    });
+</script>

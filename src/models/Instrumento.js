@@ -12,6 +12,42 @@ const Instrumento = sq.define('instrumentos', {
         type: DataTypes.STRING,
         allowNull:false
     },
+    part_name: {
+        type: DataTypes.STRING,
+        defaultValue: 'part_name'
+    },
+    part_abbreviation: {
+        type: DataTypes.STRING,
+        defaultValue: 'part_abbreviation'
+    },
+    instrument_name: {
+        type: DataTypes.STRING,
+        defaultValue: 'instrument_name'
+    },
+    instrument_sound: {
+        type: DataTypes.STRING,
+        defaultValue: 'instrument_sound'
+    },
+    diatonic: {
+        type: DataTypes.STRING,
+        defaultValue: 'diatonic'
+    },
+    chromatic: {
+        type: DataTypes.STRING,
+        defaultValue: 'chromatic'
+    },
+    octave_change: {
+        type: DataTypes.STRING,
+        defaultValue: 'octave_change'
+    },
+    sign: {
+        type: DataTypes.STRING,
+        defaultValue: 'sign'
+    },
+    line: {
+        type: DataTypes.STRING,
+        defaultValue: 'line'
+    },
     order_index: {
         type: DataTypes.INTEGER,
         allowNull: false,

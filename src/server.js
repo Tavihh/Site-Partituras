@@ -11,7 +11,6 @@ process.noDeprecation = true
 app.use ('/', home)
 app.use('/usuario', usuario)
 app.use('/admin', eAdmin, admin)
-// app.use('/admin', admin)
 
 // Outros'
 const PORTA = 2020
