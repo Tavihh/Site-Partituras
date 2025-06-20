@@ -101,7 +101,8 @@ router.get('/partitura/:id/versao/:idinstrumento', (req, res) => {
       ]
     }),
     Instrumento.findAll({ order: [['order_index', 'ASC']] }),
-  ]).then(async ([musicaVersao, instrumentos]) => {
+    Musica.findAll()
+  ]).then(async ([musicaVersao, instrumentos, musicas]) => {
     if (!musicaVersao) throw new Error('Versão não encontrada');
 
     const musica = musicaVersao.toJSON();
@@ -112,11 +113,7 @@ router.get('/partitura/:id/versao/:idinstrumento', (req, res) => {
       if (item.id == musica.musica.instrumento_id) item.original = true
       return item;
     });
-
-    let musicas = await Musica.findAll({
-      where: { instrumento_id: musica.instrumento_id }
-    });
-
+    
     res.locals.musica = musica;
     res.locals.musicas = musicas.map(item => item.toJSON());
 

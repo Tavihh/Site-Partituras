@@ -21,20 +21,6 @@
     <div id="osmd-container"></div>
 </div>
 
-<div class="partitura-controles">
-    <div>
-        <audio controls>
-            <source src="/server-files/musicas/{{musica.pathMP3}}" type="audio/mpeg">
-        </audio>
-        <a href="/server-files/musicas/{{musica.pathMP3}}" download="{{musica.nome}} - {{musica.instrumento.nome}}">
-            <img src="/imgs/icons/donwload.png" alt="">
-        </a>
-    </div>
-    <div>
-        <a href="/server-files/musicas/{{musica.pathPDF}}" download="{{musica.nome}} - {{musica.instrumento.nome}}">Partitura - PDF</a>
-        <a href="/server-files/versoes/{{musica.pathMXL}}" download="{{musica.nome}} - {{musica.instrumento.nome}}.musicxml">Partitura - MXL</a>
-    </div>
-</div>
 
 <hr>
 {{> _sectionPartituras}}
