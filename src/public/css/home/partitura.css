@@ -10,6 +10,13 @@
     padding: 10px 5px;
 }
 
+select {
+    padding: 5px;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+}
+
 .partitura-controles div {
     display: flex;
     align-items: center;
