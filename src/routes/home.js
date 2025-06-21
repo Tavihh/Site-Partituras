@@ -138,7 +138,7 @@ router.get('/partitura/:id/versao/:idinstrumento', (req, res) => {
         part.setInstrumento(instrumento);
         part.transporArmadura(musica.instrumento.chromatic - instrumento.chromatic);
         part.transporNotas(
-          musica.instrumento.chromatic - instrumento.chromatic +
+          musica.instrumento.chromatic - instrumento.chromatic -
           (12 * musica.instrumento.octave_change) +
           (12 * instrumento.octave_change)
         );
