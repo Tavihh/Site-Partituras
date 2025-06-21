@@ -166,33 +166,58 @@ router.get('/partitura/:id/versao/:idinstrumento', (req, res) => {
   });
 });
 
-router.get('/pesquisa', async (req,res) => {
-    const psq = req.query.psq
+router.get('/pesquisa', async (req, res) => {
+    const psq = req.query.psq;
 
-    // Busca os Autores
-    let autores = await Autor.findAll({where:{nome:{[Op.like]:`%${psq}%`}}})
-    // Busca os generos
-    let genero = await Genero.findAll();
-
-    genero = await Promise.all(genero.map(async (item) => {
-        item = item.toJSON()
-        // Para cada genero ele busca suas músicas
-        let musicas = await Musica.findAll({where:{genero_id:item.id,nome:{[Op.like]:`%${psq}%`}},limit:20})
-        item.musicas = await Promise.all(musicas.map(musica => musica.toJSON()))
-        // Caso não tenha alguma adiciona um valor booleano true
-        if(musicas.length > 0) {
-        item.temMusica = true
+    // Busca os Autores pelo nome
+    const autores = await Autor.findAll({
+        where: {
+            nome: {
+                [Op.like]: `%${psq}%`
+            }
         }
-        return item
+    });
+
+    // Busca os gêneros que tenham o nome parecido com o termo pesquisado
+    let generos = await Genero.findAll({
+        where: {
+            nome: {
+                [Op.like]: `%${psq}%`
+            }
+        }
+    });
+
+    // Também busca todos os gêneros para verificar se há músicas com nome semelhante ao termo pesquisado
+    const generosComMusicas = await Genero.findAll();
+
+    const genero = await Promise.all(generosComMusicas.map(async (item) => {
+        item = item.toJSON();
+        
+        // Para cada gênero, busca músicas com nome semelhante
+        const musicas = await Musica.findAll({
+            where: {
+                genero_id: item.id,
+                nome: {
+                    [Op.like]: `%${psq}%`
+                }
+            },
+            limit: 20
+        });
+
+        item.musicas = musicas.map(musica => musica.toJSON());
+
+        if (musicas.length > 0 || generos.find(g => g.id === item.id)) {
+            // Marca se tem música ou se o nome do gênero bate com a pesquisa
+            item.temMusica = true;
+        }
+
+        return item;
     }));
-    // renderiza
-    res.locals.genero = genero
 
-
-
-    res.locals.autores = await autores.map(item => item.toJSON())
-    res.render('home/pesquisa')
-})
+    res.locals.genero = genero;
+    res.locals.autores = autores.map(a => a.toJSON());
+    res.render('home/pesquisa');
+});
 
 router.get('/autor/:id', async (req,res) => {
     const id = req.params.id
