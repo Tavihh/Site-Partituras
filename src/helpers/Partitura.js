@@ -70,13 +70,34 @@ class Partitura {
         this.partitura['score-partwise']['part-list'][0]['score-part'][0]['part-abbreviation'] = instrumento.part_abbreviation //Abreviação
         this.partitura['score-partwise']['part-list'][0]['score-part'][0]['score-instrument'][0]['instrument-name'] = instrumento.instrument_name //Nome
         this.partitura['score-partwise']['part-list'][0]['score-part'][0]['score-instrument'][0]['instrument-sound'] = instrumento.instrument_sound //Reprodução MIDI
-        
-        
-        // Informações de pauta do instrumento
-        this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['transpose'][0]['diatonic'] = instrumento.diatonic //Escala Diatonica para Transpor
-        this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['transpose'][0]['chromatic'] = instrumento.chromatic //Escala Cromatica para Transpor
-        this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['transpose'][0]['octave-change'] = instrumento.octave_change // Oitava do instrumento
 
+
+        const partitura = this.partitura;
+
+        // Acessa o primeiro compasso
+        const measure0 = partitura?.['score-partwise']?.['part']?.[0]?.['measure']?.[0];
+
+        // Garante que a estrutura até 'transpose[0]' exista
+        if (measure0) {
+        if (!measure0.attributes) {
+            measure0.attributes = [{}];
+        }
+        if (!measure0.attributes[0].transpose) {
+            measure0.attributes[0].transpose = [{}];
+        }
+
+        // Define os valores de transposição
+        measure0.attributes[0].transpose[0]['diatonic'] = instrumento.diatonic; //Escala Diatonica para Transpor
+        measure0.attributes[0].transpose[0]['chromatic'] = instrumento.chromatic; //Escala Cromatica para Transpor
+        measure0.attributes[0].transpose[0]['octave-change'] = instrumento.octave_change; // Oitava do instrumento
+        } else {
+        console.error("Erro: Não foi possível acessar o primeiro compasso da partitura.");
+        }
+        
+        // // Informações de pauta do instrumento
+        // this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['transpose'][0]['diatonic'] = instrumento.diatonic //Escala Diatonica para Transpor
+        // this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['transpose'][0]['chromatic'] = instrumento.chromatic //Escala Cromatica para Transpor
+        // this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['transpose'][0]['octave-change'] = instrumento.octave_change // Oitava do instrumento
 
         //Clave
         this.partitura['score-partwise']['part'][0]['measure'][0]['attributes'][0]['clef'][0]['sign'] = instrumento.sign // Qual Clave G C F
