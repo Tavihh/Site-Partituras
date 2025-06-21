@@ -258,9 +258,9 @@ router.get('/interpretacoes', (req,res) => {
 router.get('/cadastrar/musica', (req,res) => {
 
     Promise.all([
-        Instrumento.findAll(),
-        Genero.findAll(),
-        Autor.findAll()
+        Instrumento.findAll({ order: [['nome', 'ASC']] }),
+        Genero.findAll({ order: [['nome', 'ASC']] }),
+        Autor.findAll({ order: [['nome', 'ASC']] })
     ]).then(([instrumento, genero, autor]) => {
         res.locals.instrumento = instrumento.map(item => item.toJSON())
         res.locals.genero = genero.map(item => item.toJSON())
@@ -318,9 +318,9 @@ router.get('/musica/:id', (req,res) => {
     // Buscando dados
     Promise.all([
         Musica.findOne({where:{id:req.params.id}}),
-        Instrumento.findAll(),
-        Genero.findAll(),
-        Autor.findAll()
+        Instrumento.findAll({ order: [['nome', 'ASC']] }),
+        Genero.findAll({ order: [['nome', 'ASC']] }),
+        Autor.findAll({ order: [['nome', 'ASC']] })
     ]).then(([musica, instrumento, genero, autor]) => {
        res.locals.musica = musica.toJSON()
         // Adiciona os Selecteds e converte para JSON
