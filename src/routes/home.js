@@ -169,7 +169,7 @@ router.get('/partitura/:id/versao/:idinstrumento', (req, res) => {
 router.get('/pesquisa', async (req, res) => {
     const psq = req.query.psq;
 
-    // Busca os Autores pelo nome
+    // Busca autores que tenham nome parecido com o termo pesquisado
     const autores = await Autor.findAll({
         where: {
             nome: {
@@ -178,8 +178,8 @@ router.get('/pesquisa', async (req, res) => {
         }
     });
 
-    // Busca os gêneros que tenham o nome parecido com o termo pesquisado
-    let generos = await Genero.findAll({
+    // Gêneros cujo NOME bate com a pesquisa
+    const generosPorNome = await Genero.findAll({
         where: {
             nome: {
                 [Op.like]: `%${psq}%`
@@ -187,16 +187,16 @@ router.get('/pesquisa', async (req, res) => {
         }
     });
 
-    // Também busca todos os gêneros para verificar se há músicas com nome semelhante ao termo pesquisado
-    const generosComMusicas = await Genero.findAll();
+    // Todos os gêneros para verificar se possuem músicas com o nome pesquisado
+    const todosGeneros = await Genero.findAll();
 
-    const genero = await Promise.all(generosComMusicas.map(async (item) => {
-        item = item.toJSON();
-        
-        // Para cada gênero, busca músicas com nome semelhante
+    const generosComResultados = await Promise.all(todosGeneros.map(async (genero) => {
+        const generoJSON = genero.toJSON();
+
+        // Busca músicas que batem com o nome pesquisado dentro do gênero
         const musicas = await Musica.findAll({
             where: {
-                genero_id: item.id,
+                genero_id: genero.id,
                 nome: {
                     [Op.like]: `%${psq}%`
                 }
@@ -204,18 +204,24 @@ router.get('/pesquisa', async (req, res) => {
             limit: 20
         });
 
-        item.musicas = musicas.map(musica => musica.toJSON());
+        generoJSON.musicas = musicas.map(m => m.toJSON());
 
-        if (musicas.length > 0 || generos.find(g => g.id === item.id)) {
-            // Marca se tem música ou se o nome do gênero bate com a pesquisa
-            item.temMusica = true;
+        // Define true se: tem músicas OU o nome do gênero bate com a pesquisa
+        if (musicas.length > 0 || generosPorNome.find(g => g.id === genero.id)) {
+            generoJSON.temMusica = true;
+            return generoJSON;
         }
 
-        return item;
+        // Caso contrário, exclui o gênero (não retorna nada)
+        return null;
     }));
 
-    res.locals.genero = genero;
+    // Filtra os que realmente têm algo a mostrar
+    const generosFiltrados = generosComResultados.filter(g => g !== null);
+
     res.locals.autores = autores.map(a => a.toJSON());
+    res.locals.genero = generosFiltrados;
+
     res.render('home/pesquisa');
 });
 
